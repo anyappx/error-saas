@@ -35,14 +35,14 @@ import {
   Inbox,
   Archive
 } from "lucide-react"
-import { cn } from "../../lib/utils"
-import { Button } from "../ui/button"
-import { Badge } from "../ui/badge"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "../ui/collapsible"
+} from "@/components/ui/collapsible"
 
 interface SidebarItem {
   title: string

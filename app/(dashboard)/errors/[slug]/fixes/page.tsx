@@ -14,12 +14,12 @@ import {
   Play,
   FileText
 } from "lucide-react"
-import { Button } from "../../../../components/ui/button"
-import { Badge } from "../../../../components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../../components/ui/card"
-import { Separator } from "../../../../components/ui/separator"
-import { cn } from "../../../../lib/utils"
-import { safeFindErrorBySlug } from "../../../../lib/dbFallback"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
+import { safeFindErrorBySlug } from "@/lib/dbFallback"
 
 interface FixesPageProps {
   params: Promise<{

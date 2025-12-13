@@ -1,13 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "../ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
-import { Textarea } from "../ui/textarea"
-import { Badge } from "../ui/badge"
-import { EnterpriseBadge } from "../ui/enterprise-badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Textarea } from "@/components/ui/textarea"
+import { Badge } from "@/components/ui/badge"
+import { EnterpriseBadge } from "@/components/ui/enterprise-badge"
 import { UpgradeNotice } from "./upgrade-notice"
-import { hasFeature } from "../../lib/features"
+import { hasFeature } from "@/lib/features"
 import { 
   Upload, 
   FileText, 

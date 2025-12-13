@@ -1,7 +1,7 @@
 import Link from "next/link"
-import { Button } from "../ui/button"
-import { Card, CardContent } from "../ui/card"
-import { EnterpriseBadge } from "../ui/enterprise-badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { EnterpriseBadge } from "@/components/ui/enterprise-badge"
 import { ArrowRight } from "lucide-react"
 
 interface UpgradeNoticeProps {

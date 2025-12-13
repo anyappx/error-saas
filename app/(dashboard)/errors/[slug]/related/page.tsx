@@ -16,11 +16,11 @@ import {
   ArrowRight,
   Search
 } from "lucide-react"
-import { Button } from "../../../../components/ui/button"
-import { Badge } from "../../../../components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../../components/ui/card"
-import { cn } from "../../../../lib/utils"
-import { safeFindErrorBySlug, safeFindErrors } from "../../../../lib/dbFallback"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
+import { safeFindErrorBySlug, safeFindErrors } from "@/lib/dbFallback"
 
 interface RelatedPageProps {
   params: Promise<{
