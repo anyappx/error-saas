@@ -1,6 +1,6 @@
-# Kubernetes Error Fix Atlas
+# Kubernetes Error Documentation Platform
 
-A Next.js application that provides instant explanations and fixes for Kubernetes errors.
+Enterprise-grade Next.js application providing comprehensive Kubernetes error documentation and fixes.
 
 ## Installation & Setup
 
