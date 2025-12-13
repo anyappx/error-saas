@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "build": "next build --no-turbopack",
+    "build": "TURBOPACK=0 next build",
     "start": "next start",
     "seed": "DOTENV_CONFIG_PATH=.env.local tsx --env-file .env.local scripts/seed.ts",
     "seed:production": "NODE_ENV=production tsx scripts/seed-production.ts"
