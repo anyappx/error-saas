@@ -1,0 +1,19 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/debug/config/route": "app/api/debug/config/route.js",
+  "/api/debug/db/route": "app/api/debug/db/route.js",
+  "/api/explain/route": "app/api/explain/route.js",
+  "/api/health/route": "app/api/health/route.js",
+  "/api/kubernetes/error/[slug]/route": "app/api/kubernetes/error/[slug]/route.js",
+  "/api/ocr-explain/route": "app/api/ocr-explain/route.js",
+  "/api/og/error/[slug]/route": "app-edge-has-no-entrypoint",
+  "/api/og/home/route": "app-edge-has-no-entrypoint",
+  "/api/og/list/route": "app-edge-has-no-entrypoint",
+  "/api/robots.txt/route": "app/api/robots.txt/route.js",
+  "/api/search/route": "app/api/search/route.js",
+  "/api/sitemap.xml/route": "app/api/sitemap.xml/route.js",
+  "/api/sitemaps/kubernetes.xml/route": "app/api/sitemaps/kubernetes.xml/route.js",
+  "/kubernetes/errors/[slug]/page": "app/kubernetes/errors/[slug]/page.js",
+  "/page": "app/page.js"
+}

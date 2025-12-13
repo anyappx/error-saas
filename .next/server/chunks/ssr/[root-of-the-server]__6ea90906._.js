@@ -1,0 +1,3 @@
+module.exports=[93695,(a,b,c)=>{b.exports=a.x("next/dist/shared/lib/no-fallback-error.external.js",()=>require("next/dist/shared/lib/no-fallback-error.external.js"))},81769,(a,b,c)=>{b.exports=a.x("mongodb",()=>require("mongodb"))},70924,a=>{a.n(a.i(57169))},47403,a=>{a.n(a.i(74109))},83135,a=>{a.n(a.i(12954))},2423,a=>{a.n(a.i(89196))},13731,a=>{a.n(a.i(45680))}];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__6ea90906._.js.map

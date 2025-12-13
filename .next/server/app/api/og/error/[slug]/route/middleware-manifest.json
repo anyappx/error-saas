@@ -1,0 +1,54 @@
+{
+  "sorted_middleware": [
+    "/api/og/error/[slug]/route"
+  ],
+  "middleware": {},
+  "instrumentation": null,
+  "functions": {
+    "/api/og/error/[slug]/route": {
+      "files": [
+        "server/middleware-build-manifest.js",
+        "server/interception-route-rewrite-manifest.js",
+        "server/server-reference-manifest.js",
+        "server/app/api/og/error/[slug]/route_client-reference-manifest.js",
+        "server/edge/chunks/b1a54_error-saas__next-internal_server_app_api_og_error_[slug]_route_actions_bd8aed40.js",
+        "server/edge/chunks/[root-of-the-server]__424088d5._.js",
+        "server/edge/chunks/b29aa_next_dist_esm_build_templates_edge-app-route_d103d100.js",
+        "server/edge/chunks/[root-of-the-server]__45d1722c._.js",
+        "server/edge/chunks/b29aa_next_dist_compiled_@vercel_og_22d2faf9._.js",
+        "server/edge/chunks/turbopack-vibe_error-saas_edge-wrapper_a485f28a.js"
+      ],
+      "name": "app/api/og/error/[slug]/route",
+      "page": "/api/og/error/[slug]/route",
+      "matchers": [
+        {
+          "regexp": "^/api/og/error/(?P<nxtPslug>[^/]+?)(?:/)?$",
+          "originalSource": "/api/og/error/[slug]"
+        }
+      ],
+      "wasm": [
+        {
+          "name": "wasm_fdb56e4cc5936d29",
+          "filePath": "server/edge/chunks/b29aa_next_dist_compiled_@vercel_og_resvg_23ace1ce.wasm"
+        },
+        {
+          "name": "wasm_1ccdc983b1fd9f87",
+          "filePath": "server/edge/chunks/b29aa_next_dist_compiled_@vercel_og_yoga_23ace1ce.wasm"
+        }
+      ],
+      "assets": [
+        {
+          "name": "server/edge/assets/noto-sans-v27-latin-regular.bdfa676c.ttf",
+          "filePath": "server/edge/assets/noto-sans-v27-latin-regular.bdfa676c.ttf"
+        }
+      ],
+      "env": {
+        "__NEXT_BUILD_ID": "KxFyc2Ze8uTcQ2mS7Fhqf",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "uhPZoxULtRBlhZ6OlgFS/5pGW2p7hWEiB9c12vqOJ/8=",
+        "__NEXT_PREVIEW_MODE_ID": "b36455a8edebe03268f9eb550b5b5d1f",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "ca7805e8d89632b3670f9e226479bf19e5596dbd768f3dc8751eb086decf7b24",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "63f2c1d47fb43e87ea7323c3dfe4723b126640740478c5bb7725faee00551207"
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///Users/sudhir/Documents/vibe/error-saas/app/api/sitemap.xml/route.ts"],"sourcesContent":["import { NextResponse } from 'next/server'\n\nexport async function GET() {\n  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'\n  \n  const sitemap = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <sitemap>\n    <loc>${baseUrl}/sitemaps/kubernetes.xml</loc>\n    <lastmod>${new Date().toISOString()}</lastmod>\n  </sitemap>\n</sitemapindex>`\n\n  return new NextResponse(sitemap, {\n    headers: {\n      'Content-Type': 'application/xml',\n    },\n  })\n}"],"names":[],"mappings":";;;;AAAA;;AAEO,eAAe;IACpB,MAAM,UAAU,6DAAoC;IAEpD,MAAM,UAAU,CAAC;;;SAGV,EAAE,QAAQ;aACN,EAAE,IAAI,OAAO,WAAW,GAAG;;eAEzB,CAAC;IAEd,OAAO,IAAI,ySAAY,CAAC,SAAS;QAC/B,SAAS;YACP,gBAAgB;QAClB;IACF;AACF"}}]
+}

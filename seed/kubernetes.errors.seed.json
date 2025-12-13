@@ -1,0 +1,362 @@
+[
+  {
+    "tool": "kubernetes",
+    "canonical_slug": "imagepullbackoff",
+    "title": "ImagePullBackOff / ErrImagePull",
+    "aliases": ["imagepullbackoff", "errimagepull", "image pull failed", "failed to pull image"],
+    "matchers": {
+      "regex": ["imagepullbackoff", "errimagepull", "failed.*pull.*image"]
+    },
+    "category": "registry",
+    "summary": "Kubernetes cannot pull the container image from the registry, often due to authentication, network issues, or incorrect image names.",
+    "root_causes": [
+      {
+        "name": "Image does not exist",
+        "why": "The specified image name or tag does not exist in the registry",
+        "confidence": 0.8,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/containers/images/", "label": "Kubernetes Images Documentation"}
+        ]
+      },
+      {
+        "name": "Missing imagePullSecret",
+        "why": "Kubernetes cannot authenticate to private registry without proper credentials",
+        "confidence": 0.9,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/", "label": "Pull Image from Private Registry"}
+        ]
+      }
+    ],
+    "fix_steps": [
+      {
+        "step": "Check if image exists",
+        "commands": ["docker pull <image-name>", "kubectl describe pod <pod-name>"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/reference/kubectl/cheatsheet/", "label": "kubectl Cheat Sheet"}
+        ]
+      },
+      {
+        "step": "Create imagePullSecret for private registry",
+        "commands": ["kubectl create secret docker-registry <secret-name> --docker-server=<server> --docker-username=<username> --docker-password=<password>"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/", "label": "Pull Image from Private Registry"}
+        ]
+      },
+      {
+        "step": "Add imagePullSecret to pod spec",
+        "commands": ["kubectl patch serviceaccount default -p '{\"imagePullSecrets\": [{\"name\": \"<secret-name>\"}]}'"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/configuration/secret/", "label": "Secrets Documentation"}
+        ]
+      },
+      {
+        "step": "Verify image name and tag",
+        "commands": ["kubectl get pods -o wide", "kubectl describe pod <pod-name>"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/containers/images/", "label": "Container Images"}
+        ]
+      }
+    ],
+    "clarifying_questions": ["Is this a private or public image?", "What registry are you pulling from?"],
+    "examples": [
+      {
+        "name": "Private Docker Hub image without credentials",
+        "symptom": "ImagePullBackOff when trying to pull from private Docker Hub repository",
+        "fix": "Create docker-registry secret and add to pod spec",
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/", "label": "Private Registry Guide"}
+        ]
+      }
+    ],
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z"
+  },
+  {
+    "tool": "kubernetes",
+    "canonical_slug": "crashloopbackoff",
+    "title": "CrashLoopBackOff",
+    "aliases": ["crashloopbackoff", "crash loop", "container crashing"],
+    "matchers": {
+      "regex": ["crashloopbackoff", "crash.*loop", "restarting.*container"]
+    },
+    "category": "runtime",
+    "summary": "Container keeps crashing and Kubernetes repeatedly tries to restart it with increasing backoff delays.",
+    "root_causes": [
+      {
+        "name": "Application error on startup",
+        "why": "The application exits immediately due to configuration errors or missing dependencies",
+        "confidence": 0.8,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/", "label": "Pod Lifecycle"}
+        ]
+      },
+      {
+        "name": "Incorrect command or entrypoint",
+        "why": "The container command is invalid or the entrypoint script has errors",
+        "confidence": 0.7,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/", "label": "Define Command and Arguments"}
+        ]
+      }
+    ],
+    "fix_steps": [
+      {
+        "step": "Check container logs",
+        "commands": ["kubectl logs <pod-name>", "kubectl logs <pod-name> --previous"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/reference/kubectl/cheatsheet/", "label": "kubectl Cheat Sheet"}
+        ]
+      },
+      {
+        "step": "Check pod events",
+        "commands": ["kubectl describe pod <pod-name>"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/debug-application-cluster/debug-application/", "label": "Debug Applications"}
+        ]
+      },
+      {
+        "step": "Verify container command and args",
+        "commands": ["kubectl get pod <pod-name> -o yaml"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/", "label": "Define Commands"}
+        ]
+      },
+      {
+        "step": "Test container locally",
+        "commands": ["docker run <image>"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/debug-application-cluster/debug-application/", "label": "Application Debugging"}
+        ]
+      }
+    ],
+    "clarifying_questions": ["What do the container logs show?", "Did this work before?"],
+    "examples": [
+      {
+        "name": "Node.js app with syntax error",
+        "symptom": "CrashLoopBackOff with syntax error in logs",
+        "fix": "Fix the syntax error and rebuild image",
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/debug-application-cluster/debug-application/", "label": "Debug Guide"}
+        ]
+      }
+    ],
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z"
+  },
+  {
+    "tool": "kubernetes",
+    "canonical_slug": "createcontainerconfigerror",
+    "title": "CreateContainerConfigError",
+    "aliases": ["createcontainerconfigerror", "container config error", "config error"],
+    "matchers": {
+      "regex": ["createcontainerconfigerror", "container.*config.*error"]
+    },
+    "category": "config",
+    "summary": "Kubernetes cannot create the container due to configuration issues, typically missing ConfigMaps, Secrets, or volumes.",
+    "root_causes": [
+      {
+        "name": "Missing ConfigMap",
+        "why": "Pod references a ConfigMap that doesn't exist",
+        "confidence": 0.8,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/configuration/configmap/", "label": "ConfigMap Documentation"}
+        ]
+      },
+      {
+        "name": "Missing Secret",
+        "why": "Pod references a Secret that doesn't exist or is in wrong namespace",
+        "confidence": 0.8,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/configuration/secret/", "label": "Secret Documentation"}
+        ]
+      }
+    ],
+    "fix_steps": [
+      {
+        "step": "Check pod events for specific error",
+        "commands": ["kubectl describe pod <pod-name>"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/debug-application-cluster/debug-application/", "label": "Debug Applications"}
+        ]
+      },
+      {
+        "step": "Verify ConfigMaps exist",
+        "commands": ["kubectl get configmaps", "kubectl describe configmap <configmap-name>"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/configuration/configmap/", "label": "ConfigMap Guide"}
+        ]
+      },
+      {
+        "step": "Verify Secrets exist",
+        "commands": ["kubectl get secrets", "kubectl describe secret <secret-name>"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/configuration/secret/", "label": "Secret Guide"}
+        ]
+      },
+      {
+        "step": "Check volume mounts",
+        "commands": ["kubectl get pod <pod-name> -o yaml"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/storage/volumes/", "label": "Volume Documentation"}
+        ]
+      }
+    ],
+    "clarifying_questions": ["What ConfigMaps or Secrets is the pod trying to use?"],
+    "examples": [
+      {
+        "name": "Missing database secret",
+        "symptom": "CreateContainerConfigError when pod references non-existent db-secret",
+        "fix": "Create the missing secret with proper database credentials",
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/configuration/secret/", "label": "Secrets"}
+        ]
+      }
+    ],
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z"
+  },
+  {
+    "tool": "kubernetes",
+    "canonical_slug": "podpending",
+    "title": "Pod Stuck in Pending State",
+    "aliases": ["pending", "pod pending", "stuck pending"],
+    "matchers": {
+      "regex": ["pending", "stuck.*pending"]
+    },
+    "category": "scheduling",
+    "summary": "Pod cannot be scheduled to any node due to resource constraints, node selectors, or other scheduling issues.",
+    "root_causes": [
+      {
+        "name": "Insufficient resources",
+        "why": "No nodes have enough CPU or memory to accommodate the pod",
+        "confidence": 0.8,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/", "label": "Resource Management"}
+        ]
+      },
+      {
+        "name": "Node selector mismatch",
+        "why": "Pod has nodeSelector that doesn't match any available nodes",
+        "confidence": 0.7,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/", "label": "Assign Pods to Nodes"}
+        ]
+      }
+    ],
+    "fix_steps": [
+      {
+        "step": "Check pod events",
+        "commands": ["kubectl describe pod <pod-name>"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/debug-application-cluster/debug-application/", "label": "Debug Applications"}
+        ]
+      },
+      {
+        "step": "Check node resources",
+        "commands": ["kubectl top nodes", "kubectl describe nodes"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/reference/kubectl/cheatsheet/", "label": "kubectl Commands"}
+        ]
+      },
+      {
+        "step": "Review resource requests",
+        "commands": ["kubectl get pod <pod-name> -o yaml"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/", "label": "Resource Requests"}
+        ]
+      },
+      {
+        "step": "Check node taints and tolerations",
+        "commands": ["kubectl describe nodes", "kubectl get pod <pod-name> -o yaml"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/", "label": "Taints and Tolerations"}
+        ]
+      }
+    ],
+    "clarifying_questions": ["What does kubectl describe pod show?", "How much CPU/memory is the pod requesting?"],
+    "examples": [
+      {
+        "name": "Pod requesting more memory than available",
+        "symptom": "Pod pending with 'Insufficient memory' in events",
+        "fix": "Reduce memory request or add more nodes",
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/", "label": "Resource Management"}
+        ]
+      }
+    ],
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z"
+  },
+  {
+    "tool": "kubernetes",
+    "canonical_slug": "failedscheduling",
+    "title": "FailedScheduling",
+    "aliases": ["failedscheduling", "failed scheduling", "scheduling failed"],
+    "matchers": {
+      "regex": ["failedscheduling", "failed.*scheduling", "scheduling.*failed"]
+    },
+    "category": "scheduling",
+    "summary": "The Kubernetes scheduler cannot find a suitable node to place the pod due to various constraints.",
+    "root_causes": [
+      {
+        "name": "Resource constraints",
+        "why": "No nodes have sufficient CPU, memory, or other resources",
+        "confidence": 0.8,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/", "label": "kube-scheduler"}
+        ]
+      },
+      {
+        "name": "Affinity rules",
+        "why": "Pod affinity or anti-affinity rules prevent scheduling",
+        "confidence": 0.6,
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/", "label": "Pod Affinity"}
+        ]
+      }
+    ],
+    "fix_steps": [
+      {
+        "step": "Check scheduler events",
+        "commands": ["kubectl get events --sort-by=.metadata.creationTimestamp"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/tasks/debug-application-cluster/debug-application/", "label": "Debug Events"}
+        ]
+      },
+      {
+        "step": "Examine node capacity",
+        "commands": ["kubectl describe nodes"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/architecture/nodes/", "label": "Node Documentation"}
+        ]
+      },
+      {
+        "step": "Review pod scheduling constraints",
+        "commands": ["kubectl get pod <pod-name> -o yaml"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/", "label": "Pod Scheduling"}
+        ]
+      },
+      {
+        "step": "Check for node taints",
+        "commands": ["kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints"],
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/", "label": "Taints"}
+        ]
+      }
+    ],
+    "clarifying_questions": ["What scheduling constraints does the pod have?"],
+    "examples": [
+      {
+        "name": "Pod with anti-affinity blocking scheduling",
+        "symptom": "FailedScheduling due to pod anti-affinity rules",
+        "fix": "Modify anti-affinity rules or add more nodes",
+        "sources": [
+          {"url": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/", "label": "Pod Affinity Guide"}
+        ]
+      }
+    ],
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z"
+  }
+]

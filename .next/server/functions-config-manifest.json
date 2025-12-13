@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "functions": {
+    "/api/og/error/[slug]": {},
+    "/api/og/home": {},
+    "/api/og/list": {}
+  }
+}

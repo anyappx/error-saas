@@ -1,0 +1,19 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/debug/config/route": "/api/debug/config",
+  "/api/debug/db/route": "/api/debug/db",
+  "/api/explain/route": "/api/explain",
+  "/api/health/route": "/api/health",
+  "/api/kubernetes/error/[slug]/route": "/api/kubernetes/error/[slug]",
+  "/api/ocr-explain/route": "/api/ocr-explain",
+  "/api/og/error/[slug]/route": "/api/og/error/[slug]",
+  "/api/og/home/route": "/api/og/home",
+  "/api/og/list/route": "/api/og/list",
+  "/api/robots.txt/route": "/api/robots.txt",
+  "/api/search/route": "/api/search",
+  "/api/sitemap.xml/route": "/api/sitemap.xml",
+  "/api/sitemaps/kubernetes.xml/route": "/api/sitemaps/kubernetes.xml",
+  "/kubernetes/errors/[slug]/page": "/kubernetes/errors/[slug]",
+  "/page": "/"
+}

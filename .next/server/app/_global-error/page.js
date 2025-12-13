@@ -1,0 +1,10 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/_global-error/page.js")
+R.c("server/chunks/ssr/[root-of-the-server]__b11b2427._.js")
+R.c("server/chunks/ssr/b29aa_next_dist_b547e6c9._.js")
+R.c("server/chunks/ssr/b29aa_next_dist_b2c20dec._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__97038135._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__216ed993._.js")
+R.c("server/chunks/ssr/b29aa_next_dist_f97efeb1._.js")
+R.c("server/chunks/ssr/vibe_error-saas__next-internal_server_app__global-error_page_actions_3fc58b71.js")
+R.m(84029)
+module.exports=R.m(84029).exports

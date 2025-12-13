@@ -1,0 +1,3 @@
+{
+  "/api/og/error/[slug]/route": "app-edge-has-no-entrypoint"
+}

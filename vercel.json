@@ -1,0 +1,92 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    },
+    "app/api/explain/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/search/route.ts": {
+      "maxDuration": 45
+    },
+    "app/api/ocr-explain/route.ts": {
+      "maxDuration": 90
+    }
+  },
+  "regions": ["iad1"],
+  "env": {
+    "NODE_ENV": "production",
+    "MONGODB_DB_NAME": "error_saas_prod"
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=300, stale-while-revalidate=600"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options", 
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/errors",
+      "destination": "/kubernetes/errors",
+      "permanent": true
+    },
+    {
+      "source": "/k8s/:path*",
+      "destination": "/kubernetes/:path*", 
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/api/robots.txt"
+    }
+  ]
+}
