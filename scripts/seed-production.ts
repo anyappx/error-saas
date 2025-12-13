@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-import { connectToDatabase } from '@/lib/db'
+import { connectToDatabase } from '../lib/db'
 import { K8S_ERRORS } from '../kubernetes/errors/k8s_errors'
 import { HELM_ERRORS } from '../helm/errors/helm_errors'
 import { KUBECTL_ERRORS } from '../kubectl/errors/kubectl_errors'
 import { DOCKER_ERRORS } from '../docker/errors/docker_errors'
 import { CNI_ERRORS } from '../cni/errors/cni_errors'
-import { ErrorSchema } from '@/lib/schema'
-import { logger } from '@/lib/logger'
+import { ErrorSchema } from '../lib/schema'
+import { logger } from '../lib/logger'
 
 // All datasets to seed
 const ALL_DATASETS = [

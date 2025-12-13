@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { safeFindErrors } from '@/lib/dbFallback'
-import { normalizeText } from '@/lib/normalize'
-import { KubernetesError } from '@/lib/schema'
-import { logger } from '@/lib/logger'
+import { safeFindErrors } from '../../../lib/dbFallback'
+import { normalizeText } from '../../../lib/normalize'
+import { KubernetesError } from '../../../lib/schema'
+import { logger } from '../../../lib/logger'
 
 export interface SearchResult {
   error: KubernetesError

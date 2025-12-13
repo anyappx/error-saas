@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { checkDatabaseHealth } from '@/lib/db'
-import { getErrorStats } from '@/lib/dbFallback'
+import { checkDatabaseHealth } from '../../../../lib/db'
+import { getErrorStats } from '../../../../lib/dbFallback'
 
 export async function GET() {
   try {

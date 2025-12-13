@@ -1,11 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 import { EnterpriseHeader } from "./enterprise-header"
 import { Sidebar } from "./sidebar"
-import { AIAssistant } from "@/components/ai/ai-assistant"
-import { CommandPalette } from "@/components/ui/command-palette"
+import { AIAssistant } from "../ai/ai-assistant"
+import { CommandPalette } from "../ui/command-palette"
 
 interface EnterpriseLayoutProps {
   children: React.ReactNode

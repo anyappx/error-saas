@@ -18,14 +18,14 @@ import {
   Users,
   BarChart3
 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { EnterpriseBadge } from "@/components/ui/enterprise-badge"
-import { cn } from "@/lib/utils"
-import { safeFindErrorBySlug, safeFindErrors } from "@/lib/dbFallback"
-import { hasFeature } from "@/lib/features"
+import { Button } from "../../../../components/ui/button"
+import { Badge } from "../../../../components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../../components/ui/card"
+import { Separator } from "../../../../components/ui/separator"
+import { EnterpriseBadge } from "../../../../components/ui/enterprise-badge"
+import { cn } from "../../../../lib/utils"
+import { safeFindErrorBySlug, safeFindErrors } from "../../../../lib/dbFallback"
+import { hasFeature } from "../../../../lib/features"
 
 interface ErrorDetailProps {
   params: Promise<{

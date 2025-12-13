@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { safeFindErrors } from '@/lib/dbFallback'
-import { connectToDatabase } from '@/lib/db'
-import { normalizeText } from '@/lib/normalize'
-import { matchError } from '@/lib/matcher'
-import { logger } from '@/lib/logger'
+import { safeFindErrors } from '../../../lib/dbFallback'
+import { connectToDatabase } from '../../../lib/db'
+import { normalizeText } from '../../../lib/normalize'
+import { matchError } from '../../../lib/matcher'
+import { logger } from '../../../lib/logger'
 
 const RequestSchema = z.object({
   text: z.string()

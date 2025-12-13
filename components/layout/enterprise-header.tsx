@@ -21,7 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 interface EnterpriseHeaderProps {
   onMenuToggle?: () => void

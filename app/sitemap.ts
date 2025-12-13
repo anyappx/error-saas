@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { safeFindErrors } from '@/lib/dbFallback'
+import { safeFindErrors } from '../lib/dbFallback'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kubernetes-errors.com'

@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import clientPromise from '@/lib/mongodb'
-import { ErrorSchema, KubernetesError } from '@/lib/schema'
-import { generateSEOMetadata, generateFAQJsonLd } from '@/lib/seo'
+import clientPromise from '../../../../lib/mongodb'
+import { ErrorSchema, KubernetesError } from '../../../../lib/schema'
+import { generateSEOMetadata, generateFAQJsonLd } from '../../../../lib/seo'
 
 interface PageProps {
   params: Promise<{ slug: string }>

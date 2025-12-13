@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import Link from "next/link"
-import { BulkAnalysis } from "@/components/enterprise/bulk-analysis"
+import { BulkAnalysis } from "../../../components/enterprise/bulk-analysis"
 import { ChevronRight } from "lucide-react"
 
 export const metadata: Metadata = {

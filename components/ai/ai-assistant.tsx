@@ -18,7 +18,7 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Badge } from "../ui/badge"
 import { Card } from "../ui/card"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 interface Message {
   id: string

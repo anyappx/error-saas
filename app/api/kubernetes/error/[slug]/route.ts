@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { safeFindErrorBySlug } from '@/lib/dbFallback'
-import { logger } from '@/lib/logger'
+import { safeFindErrorBySlug } from '../../../../../lib/dbFallback'
+import { logger } from '../../../../../lib/logger'
 
 export async function GET(
   request: NextRequest,

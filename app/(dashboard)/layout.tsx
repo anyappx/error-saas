@@ -1,6 +1,6 @@
 "use client"
 
-import { EnterpriseLayout } from "@/components/layout/enterprise-layout"
+import { EnterpriseLayout } from "../../components/layout/enterprise-layout"
 
 export default function DashboardLayout({
   children,

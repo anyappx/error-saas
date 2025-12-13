@@ -52,18 +52,18 @@ const nextConfig = {
     // Remove turbo config as it's not valid for Next.js 16
   },
 
-  // Webpack fallback for path resolution
-  webpack: (config) => {
-    const path = require('path')
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(__dirname, '.'),
-      '@/components': path.resolve(__dirname, 'components'),
-      '@/lib': path.resolve(__dirname, 'lib'),
-      '@/app': path.resolve(__dirname, 'app'),
-    }
-    return config
-  },
+  // Removed webpack alias configuration to force relative imports
+  // webpack: (config) => {
+  //   const path = require('path')
+  //   config.resolve.alias = {
+  //     ...config.resolve.alias,
+  //     '@': path.resolve(__dirname, '.'),
+  //     '@/components': path.resolve(__dirname, 'components'),
+  //     '@/lib': path.resolve(__dirname, 'lib'),
+  //     '@/app': path.resolve(__dirname, 'app'),
+  //   }
+  //   return config
+  // },
 }
 
 module.exports = nextConfig
