@@ -12,7 +12,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@/components/ui/command"
+} from "./command"
 import {
   AlertTriangle,
   BarChart3,
