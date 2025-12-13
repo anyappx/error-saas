@@ -16,11 +16,11 @@ import {
   ArrowRight,
   Search
 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
-import { safeFindErrorBySlug, safeFindErrors } from "@/lib/dbFallback"
+import { Button } from "../../../../../components/ui/button"
+import { Badge } from "../../../../../components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../../../components/ui/card"
+import { cn } from "../../../../../lib/utils"
+import { safeFindErrorBySlug, safeFindErrors } from "../../../../../lib/dbFallback"
 
 interface RelatedPageProps {
   params: Promise<{
@@ -560,7 +560,7 @@ export default async function RelatedPage({ params }: RelatedPageProps) {
 
 export async function generateStaticParams() {
   try {
-    const { safeFindErrors } = await import('@/lib/dbFallback')
+    const { safeFindErrors } = await import('../../../../../lib/dbFallback')
     const errors = await safeFindErrors()
     return errors.map(error => ({
       slug: error.canonical_slug

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 import { 
   AlertTriangle,
   Shield,
@@ -18,8 +18,8 @@ import {
   TrendingUp,
   Crown
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { EnterpriseBadge } from '@/components/ui/enterprise-badge'
+import { Button } from '../ui/button'
+import { EnterpriseBadge } from '../ui/enterprise-badge'
 import { useState } from 'react'
 
 const tools = [
