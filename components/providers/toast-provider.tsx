@@ -1,6 +1,6 @@
 "use client"
 
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "../ui/toaster"
 
 export function ToastProvider() {
   return <Toaster />
