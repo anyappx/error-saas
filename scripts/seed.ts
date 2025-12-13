@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import clientPromise from '../lib/mongodb.js'
-import { ErrorSchema } from '../lib/schema.js'
+import clientPromise from '@/lib/mongodb.js'
+import { ErrorSchema } from '@/lib/schema.js'
 
 async function seed() {
   try {

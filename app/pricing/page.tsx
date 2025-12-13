@@ -1,11 +1,11 @@
 import { Metadata } from "next"
 import Link from "next/link"
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
-import { Badge } from "../components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Check, ArrowLeft, Clock, Users, Zap } from "lucide-react"
-import { PRICING_TIERS } from "../lib/features"
-import { cn } from "../lib/utils"
+import { PRICING_TIERS } from "@/lib/features"
+import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
   title: "Pricing - Kubernetes Error Documentation",

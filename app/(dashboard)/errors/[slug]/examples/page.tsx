@@ -15,11 +15,11 @@ import {
   Terminal,
   Lightbulb
 } from "lucide-react"
-import { Button } from "../../../../../components/ui/button"
-import { Badge } from "../../../../../components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../../../components/ui/card"
-import { cn } from "../../../../../lib/utils"
-import { safeFindErrorBySlug } from "../../../../../lib/dbFallback"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
+import { safeFindErrorBySlug } from "@/lib/dbFallback"
 
 interface ExamplesPageProps {
   params: Promise<{
@@ -470,7 +470,7 @@ export default async function ExamplesPage({ params }: ExamplesPageProps) {
 
 export async function generateStaticParams() {
   try {
-    const { safeFindErrors } = await import('../../../../../lib/dbFallback')
+    const { safeFindErrors } = await import('@/lib/dbFallback')
     const errors = await safeFindErrors()
     return errors.map(error => ({
       slug: error.canonical_slug

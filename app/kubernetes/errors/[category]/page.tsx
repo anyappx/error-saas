@@ -14,11 +14,11 @@ import {
   ExternalLink,
   ChevronRight
 } from "lucide-react"
-import { Badge } from "../../../components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card"
-import { Button } from "../../../components/ui/button"
-import { cn } from "../../../lib/utils"
-import { safeFindErrors } from "../../../lib/dbFallback"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { safeFindErrors } from "@/lib/dbFallback"
 
 interface CategoryPageProps {
   params: Promise<{
