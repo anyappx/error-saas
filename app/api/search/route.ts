@@ -44,15 +44,38 @@ class K8SearchEngine {
     const allErrors = await safeFindErrors()
     
     if (!normalizedQuery) {
+      // For dashboard overview, return all errors when no query provided
+      const allResults: SearchResult[] = allErrors.map(error => ({
+        error,
+        score: this.FUZZY_MATCH_SCORE,
+        matchType: 'exact' as const,
+        matchedText: error.title
+      }))
+      
+      // Apply category filter if provided
+      const filteredResults = category 
+        ? allResults.filter(r => r.error.category === category)
+        : allResults
+      
+      // Sort by created_at (newest first)
+      filteredResults.sort((a, b) => new Date(b.error.created_at).getTime() - new Date(a.error.created_at).getTime())
+      
+      // Apply pagination
+      const startIndex = (page - 1) * pageSize
+      const paginatedResults = filteredResults.slice(startIndex, startIndex + pageSize)
+      
+      // Extract categories
+      const categories = [...new Set(allErrors.map(error => error.category))]
+      
       return {
-        results: [],
-        total: 0,
+        results: paginatedResults,
+        total: filteredResults.length,
         query,
         page,
         pageSize,
-        categories: [],
+        categories,
         executionTimeMs: Date.now() - startTime,
-        dataSource: allErrors === await safeFindErrors() ? 'static' : 'database'
+        dataSource: 'database'
       }
     }
 
@@ -96,7 +119,7 @@ class K8SearchEngine {
       pageSize,
       categories,
       executionTimeMs: Date.now() - startTime,
-      dataSource: 'static' // For now, will be enhanced with DB detection
+      dataSource: allErrors.length > 0 ? 'database' : 'static' // Detect based on data availability
     }
   }
 
