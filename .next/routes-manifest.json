@@ -62,6 +62,54 @@
       "namedRegex": "^/api/og/error/(?<nxtPslug>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/errors/[slug]",
+      "regex": "^/errors/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/errors/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/errors/[slug]/causes",
+      "regex": "^/errors/([^/]+?)/causes(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/errors/(?<nxtPslug>[^/]+?)/causes(?:/)?$"
+    },
+    {
+      "page": "/errors/[slug]/examples",
+      "regex": "^/errors/([^/]+?)/examples(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/errors/(?<nxtPslug>[^/]+?)/examples(?:/)?$"
+    },
+    {
+      "page": "/errors/[slug]/fixes",
+      "regex": "^/errors/([^/]+?)/fixes(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/errors/(?<nxtPslug>[^/]+?)/fixes(?:/)?$"
+    },
+    {
+      "page": "/errors/[slug]/related",
+      "regex": "^/errors/([^/]+?)/related(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/errors/(?<nxtPslug>[^/]+?)/related(?:/)?$"
+    },
+    {
+      "page": "/kubernetes/errors/[category]",
+      "regex": "^/kubernetes/errors/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcategory": "nxtPcategory"
+      },
+      "namedRegex": "^/kubernetes/errors/(?<nxtPcategory>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/kubernetes/errors/[slug]",
       "regex": "^/kubernetes/errors/([^/]+?)(?:/)?$",
       "routeKeys": {
@@ -88,6 +136,12 @@
       "regex": "^/_not\\-found(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/analysis",
+      "regex": "^/analysis(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/analysis(?:/)?$"
     },
     {
       "page": "/api/debug/config",
@@ -154,6 +208,30 @@
       "regex": "^/api/sitemaps/kubernetes\\.xml(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/sitemaps/kubernetes\\.xml(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/errors",
+      "regex": "^/errors(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/errors(?:/)?$"
+    },
+    {
+      "page": "/pricing",
+      "regex": "^/pricing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pricing(?:/)?$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
     }
   ],
   "dataRoutes": [],

@@ -21,14 +21,13 @@
         "name": "next"
       }
     ],
-    // Removed baseUrl and paths to force relative imports
-    // "baseUrl": ".",
-    // "paths": {
-    //   "@/*": ["./"],
-    //   "@/components/*": ["./components/*"],
-    //   "@/lib/*": ["./lib/*"],
-    //   "@/app/*": ["./app/*"]
-    // },
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./"],
+      "@/components/*": ["./components/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/app/*": ["./app/*"]
+    },
     "target": "ES2017"
   },
   "include": [

@@ -74,19 +74,14 @@ export default function RootLayout({
         <meta name="theme-color" content="#0f172a" />
       </head>
       <body className={cn(
-        'min-h-screen bg-background font-sans antialiased',
+        'min-h-screen bg-slate-50 font-sans antialiased',
         inter.variable,
         jetbrainsMono.variable
       )}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="default"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <div className="flex min-h-screen">
           {children}
-          <ToastProvider />
-        </ThemeProvider>
+        </div>
+        <ToastProvider />
       </body>
     </html>
   )

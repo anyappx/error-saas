@@ -7,28 +7,17 @@ import { Suspense } from "react"
 import { 
   Search, 
   Filter, 
-  Download, 
-  RefreshCw,
   AlertTriangle,
-  Package,
-  Clock,
-  TrendingUp,
   Eye,
   ExternalLink,
-  Loader2
+  Loader2,
+  Database,
+  RefreshCw
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import {
   Select,
   SelectContent,
@@ -37,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
+import { DocLayout } from "@/components/layout/doc-layout"
 
 interface SearchResult {
   error: {
@@ -150,295 +140,190 @@ function ErrorsPageContent() {
     console.log("Exporting error data...")
   }
 
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      registry: "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300",
-      runtime: "bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300",
-      scheduling: "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300",
-      config: "bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300",
-      storage: "bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-300",
-      network: "bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300",
-      auth: "bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300",
-      cluster: "bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300",
-      scheduler: "bg-pink-100 text-pink-800 dark:bg-pink-950 dark:text-pink-300",
-    }
-    return colors[category as keyof typeof colors] || "bg-gray-100 text-gray-800 dark:bg-gray-950 dark:text-gray-300"
-  }
-
-  const formatLastSeen = (dateString: string) => {
+  const formatDate = (dateString: string) => {
     try {
-      const date = new Date(dateString)
-      const now = new Date()
-      const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60))
-      
-      if (diffInMinutes < 60) {
-        return `${diffInMinutes}m ago`
-      } else if (diffInMinutes < 1440) {
-        return `${Math.floor(diffInMinutes / 60)}h ago`
-      } else {
-        return `${Math.floor(diffInMinutes / 1440)}d ago`
-      }
+      return new Date(dateString).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      })
     } catch {
       return "Unknown"
     }
   }
 
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Error Documentation</h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400">
+    <DocLayout>
+      <div className="space-y-8">
+        {/* Header */}
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold text-slate-900">Error Documentation</h1>
+          <p className="text-slate-600">
             Search and browse comprehensive Kubernetes error documentation
           </p>
           {dataSource && (
-            <p className="text-sm text-slate-500 mt-2">
-              {totalResults} documented errors • Source: {dataSource === 'database' ? 'Live' : 'Static'}
-            </p>
+            <div className="flex items-center gap-4 text-sm text-slate-500 mt-3">
+              <span>{totalResults} documented errors</span>
+              <div className="flex items-center gap-1">
+                <Database className="h-4 w-4" />
+                <span>{dataSource === 'database' ? 'Live database' : 'Static fallback'}</span>
+              </div>
+            </div>
           )}
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={handleRefresh} disabled={isLoading}>
-            <RefreshCw className={cn("mr-2 h-4 w-4", isLoading && "animate-spin")} />
-            Refresh
-          </Button>
-        </div>
-      </div>
 
-      {/* Stats */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Errors</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-red-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalResults}</div>
-            <p className="text-xs text-muted-foreground">across all tools</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Top Match</CardTitle>
-            <TrendingUp className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {searchResults[0]?.error.title.substring(0, 20) || "None"}
-              {searchResults[0]?.error.title.length > 20 ? "..." : ""}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {searchResults[0]?.score ? `Score: ${searchResults[0].score}` : "No results"}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Categories</CardTitle>
-            <Package className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {new Set(searchResults.map(r => r.error.category)).size}
-            </div>
-            <p className="text-xs text-muted-foreground">error categories</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Data Source</CardTitle>
-            <Clock className="h-4 w-4 text-purple-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold capitalize">{dataSource}</div>
-            <p className="text-xs text-muted-foreground">
-              {dataSource === 'database' ? 'live data' : 'fallback mode'}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
 
-      {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Search & Filters
-          </CardTitle>
-          <CardDescription>
-            Search errors by keyword and filter by tool and category
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search errors..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-8"
-              />
-            </div>
-            <Select value={selectedTool} onValueChange={setSelectedTool}>
-              <SelectTrigger>
-                <SelectValue placeholder="Tool" />
-              </SelectTrigger>
-              <SelectContent>
-                {tools.map((tool) => (
-                  <SelectItem key={tool.value} value={tool.value}>
-                    {tool.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger>
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category.value} value={category.value}>
-                    {category.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {isLoading && (
-              <div className="flex items-center justify-center">
-                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                <span className="ml-2 text-sm text-muted-foreground">Loading...</span>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Error Display */}
-      {error && (
-        <Card className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950">
+        {/* Filters */}
+        <Card>
           <CardContent className="pt-6">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-red-600" />
-              <p className="text-red-600 font-medium">Search Error</p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <Input
+                  placeholder="Search errors (e.g. CrashLoopBackOff)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <div className="flex gap-2 sm:w-auto">
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger className="w-40">
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleRefresh} 
+                  disabled={isLoading}
+                  className="px-3"
+                >
+                  <RefreshCw className={cn("h-4 w-4", isLoading && "animate-spin")} />
+                </Button>
+              </div>
             </div>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="mt-2 border-red-200 text-red-600 hover:bg-red-100"
-              onClick={() => setError(null)}
-            >
-              Dismiss
-            </Button>
           </CardContent>
         </Card>
-      )}
 
-      {/* Results Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Error Results</CardTitle>
-          <CardDescription>
-            {isLoading 
-              ? "Loading error data..." 
-              : `Found ${totalResults} error${totalResults !== 1 ? 's' : ''}`
-            }
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="flex items-center justify-center h-32">
-              <Loader2 className="h-6 w-6 animate-spin" />
-              <span className="ml-2">Loading errors...</span>
+        {/* Error Display */}
+        {error && (
+          <Card className="border-rose-200 bg-rose-50">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-5 w-5 text-rose-600" />
+                <p className="text-rose-600 font-medium">Search Error</p>
+              </div>
+              <p className="text-rose-600 text-sm mt-1">{error}</p>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="mt-2 border-rose-200 text-rose-600 hover:bg-rose-100"
+                onClick={() => setError(null)}
+              >
+                Dismiss
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Results */}
+        {isLoading ? (
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-center h-32">
+                <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
+                <span className="ml-2 text-slate-600">Loading error documentation...</span>
+              </div>
+            </CardContent>
+          </Card>
+        ) : searchResults.length === 0 ? (
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex flex-col items-center justify-center h-32 text-slate-500">
+                <AlertTriangle className="h-8 w-8 mb-2" />
+                <p className="font-medium">No errors found for this category yet</p>
+                <p className="text-sm">Try browsing other categories or adjusting your search</p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-slate-600">
+                Showing {searchResults.length} of {totalResults} documented errors
+              </p>
             </div>
-          ) : searchResults.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-32 text-muted-foreground">
-              <AlertTriangle className="h-8 w-8 mb-2" />
-              <p>No errors found</p>
-              <p className="text-sm">Try adjusting your search or filters</p>
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Error</TableHead>
-                  <TableHead>Tool</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Score</TableHead>
-                  <TableHead>Match Type</TableHead>
-                  <TableHead>Last Updated</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {searchResults.map((result, index) => (
-                  <TableRow key={`${result.error.canonical_slug}-${index}`}>
-                    <TableCell>
-                      <div className="space-y-1">
-                        <div className="font-medium">{result.error.title}</div>
-                        <div className="text-xs text-muted-foreground line-clamp-2">
-                          {result.error.summary.substring(0, 100)}...
+            <div className="space-y-3">
+              {searchResults.map((result, index) => (
+                <Card key={`${result.error.canonical_slug}-${index}`} className="hover:border-indigo-200 transition-colors">
+                  <CardContent className="pt-6">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-2 flex-1">
+                        <div className="flex items-center gap-3">
+                          <Link 
+                            href={`/errors/${result.error.canonical_slug}`}
+                            className="text-base font-medium text-slate-900 hover:text-indigo-600 flex items-center gap-2"
+                          >
+                            {result.error.title}
+                            <ExternalLink className="h-4 w-4" />
+                          </Link>
+                        </div>
+                        <p className="text-sm text-slate-600 leading-relaxed">
+                          {result.error.summary.length > 150 
+                            ? result.error.summary.substring(0, 150) + '...' 
+                            : result.error.summary}
+                        </p>
+                        <div className="flex items-center gap-3 text-xs">
+                          <Badge variant="outline" className="capitalize">
+                            {result.error.tool}
+                          </Badge>
+                          <Badge variant="secondary" className="capitalize">
+                            {result.error.category}
+                          </Badge>
+                          <span className="text-slate-500">
+                            Updated {formatDate(result.error.updated_at)}
+                          </span>
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="capitalize">
-                        {result.error.tool}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge className={cn("capitalize", getCategoryColor(result.error.category))}>
-                        {result.error.category}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={result.score > 80 ? "default" : result.score > 50 ? "secondary" : "outline"}>
-                        {result.score}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-xs text-muted-foreground capitalize">
-                        {result.matchType}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-xs text-muted-foreground">
-                        {formatLastSeen(result.error.updated_at)}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-1">
-                        <Button variant="ghost" size="icon" asChild>
-                          <Link href={`/errors/${result.error.canonical_slug}`}>
-                            <Eye className="h-4 w-4" />
-                            <span className="sr-only">View details</span>
-                          </Link>
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+                      <Button variant="ghost" size="sm" asChild className="ml-4">
+                        <Link href={`/errors/${result.error.canonical_slug}`}>
+                          <Eye className="h-4 w-4 mr-2" />
+                          View
+                        </Link>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </DocLayout>
   )
 }
 
 export default function ErrorsPage() {
   return (
     <Suspense fallback={
-      <div className="space-y-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-muted rounded w-1/4 mb-2"></div>
-          <div className="h-4 bg-muted rounded w-1/2"></div>
+      <DocLayout>
+        <div className="space-y-8">
+          <div className="animate-pulse">
+            <div className="h-8 bg-slate-200 rounded w-1/3 mb-2"></div>
+            <div className="h-4 bg-slate-200 rounded w-1/2"></div>
+          </div>
+          <div className="h-64 bg-slate-100 rounded"></div>
         </div>
-        <div className="h-64 bg-muted rounded"></div>
-      </div>
+      </DocLayout>
     }>
       <ErrorsPageContent />
     </Suspense>

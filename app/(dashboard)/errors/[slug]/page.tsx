@@ -2,30 +2,22 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Metadata } from "next"
 import { 
-  ArrowLeft, 
-  Copy, 
   ExternalLink, 
-  Clock, 
-  TrendingUp, 
+  Terminal,
   AlertTriangle,
   CheckCircle2,
-  Terminal,
-  BookOpen,
-  Share,
-  Download,
-  Star,
-  FileText,
-  Users,
-  BarChart3
+  Database,
+  Clock,
+  Shield,
+  Copy,
+  Zap
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { EnterpriseBadge } from "@/components/ui/enterprise-badge"
 import { cn } from "@/lib/utils"
 import { safeFindErrorBySlug, safeFindErrors } from "@/lib/dbFallback"
-import { hasFeature } from "@/lib/features"
+import { DocLayout } from "@/components/layout/doc-layout"
 
 interface ErrorDetailProps {
   params: Promise<{
@@ -111,17 +103,16 @@ export default async function ErrorDetailPage({ params }: ErrorDetailProps) {
 
   const relatedErrors = await getRelatedErrors(errorData)
 
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      registry: "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300",
-      runtime: "bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300",
-      scheduling: "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300",
-      config: "bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300",
-      storage: "bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-300",
-      network: "bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300",
-      auth: "bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300",
-    }
-    return colors[category as keyof typeof colors] || "bg-gray-100 text-gray-800 dark:bg-gray-950 dark:text-gray-300"
+  const getConfidenceColor = (confidence: number) => {
+    if (confidence >= 0.8) return "text-emerald-600"
+    if (confidence >= 0.6) return "text-amber-600"
+    return "text-slate-500"
+  }
+  
+  const getConfidenceBadge = (confidence: number) => {
+    if (confidence >= 0.8) return "High"
+    if (confidence >= 0.6) return "Medium"
+    return "Low"
   }
 
   const jsonLd = {
@@ -184,311 +175,373 @@ export default async function ErrorDetailPage({ params }: ErrorDetailProps) {
         }}
       />
       
-      <div className="space-y-6">
-        {/* Breadcrumb Navigation */}
-        <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <Link href="/errors" className="hover:text-foreground">
-            Errors
-          </Link>
-          <span>/</span>
-          <span className="text-foreground">{errorData.title}</span>
-        </nav>
+      <DocLayout>
+        <div className="space-y-8">
+          {/* Breadcrumb Navigation */}
+          <nav className="flex items-center space-x-2 text-sm text-slate-600 mb-6">
+            <Link href="/dashboard" className="hover:text-indigo-600">
+              Overview
+            </Link>
+            <span>/</span>
+            <Link href="/errors" className="hover:text-indigo-600">
+              Errors
+            </Link>
+            <span>/</span>
+            <span className="text-slate-900">{errorData.title}</span>
+          </nav>
 
-        {/* Header */}
-        <div className="border-b border-slate-200 dark:border-slate-700 pb-6">
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-3">{errorData.title}</h1>
-              <p className="text-lg text-slate-600 dark:text-slate-400 mb-4 leading-relaxed max-w-4xl">
-                {errorData.summary}
-              </p>
-              <div className="flex items-center gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="capitalize font-mono">
-                    {errorData.tool}
-                  </Badge>
-                  <Badge className={cn("capitalize", getCategoryColor(errorData.category))}>
-                    {errorData.category}
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-4 text-slate-500">
-                  <span>Last updated: {new Date(errorData.updated_at).toLocaleDateString()}</span>
-                  <span>•</span>
-                  <span>Official sources</span>
-                </div>
+          {/* Header */}
+          <div className="space-y-4 pb-8 border-b border-slate-200">
+            <div className="flex items-center gap-3 mb-3">
+              <Badge variant="outline" className="text-xs">
+                {errorData.tool}
+              </Badge>
+              <Badge variant="secondary" className="text-xs capitalize">
+                {errorData.category}
+              </Badge>
+              <Badge className="text-xs">
+                <CheckCircle2 className="h-3 w-3 mr-1" />
+                Verified
+              </Badge>
+            </div>
+            <h1 className="text-2xl font-semibold text-slate-900 leading-tight">{errorData.title}</h1>
+            <p className="text-slate-600 text-base leading-relaxed max-w-4xl">
+              {errorData.summary}
+            </p>
+            <div className="flex items-center gap-6 text-sm text-slate-500">
+              <div className="flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                <span>Updated {new Date(errorData.updated_at).toLocaleDateString()}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Database className="h-4 w-4" />
+                <span>Official documentation</span>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Documentation Navigation */}
-        <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4">
-          <h2 className="font-semibold text-slate-900 dark:text-slate-100 mb-3">Documentation Sections</h2>
-          <nav className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Link 
-              href={`/errors/${errorData.canonical_slug}/causes`}
-              className="flex items-center gap-2 p-3 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-            >
-              <AlertTriangle className="h-4 w-4 text-red-600" />
-              <div>
-                <div className="font-medium text-sm">Root Causes</div>
-                <div className="text-xs text-slate-500">
-                  {errorData.root_causes?.length || 0} identified
-                </div>
+          <div className="grid gap-8 lg:grid-cols-4">
+            {/* Main Content */}
+            <div className="lg:col-span-3 space-y-8">
+              <div className="space-y-1">
+                <h2 className="text-xl font-semibold text-slate-900">What this error means</h2>
+                <p className="text-slate-600">
+                  This section explains the technical details and context of this Kubernetes error.
+                </p>
               </div>
-            </Link>
-            
-            <Link 
-              href={`/errors/${errorData.canonical_slug}/fixes`}
-              className="flex items-center gap-2 p-3 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-            >
-              <Terminal className="h-4 w-4 text-green-600" />
-              <div>
-                <div className="font-medium text-sm">Resolution Steps</div>
-                <div className="text-xs text-slate-500">
-                  {errorData.fix_steps?.length || 0} procedures
-                </div>
-              </div>
-            </Link>
-            
-            <Link 
-              href={`/errors/${errorData.canonical_slug}/examples`}
-              className="flex items-center gap-2 p-3 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-            >
-              <FileText className="h-4 w-4 text-blue-600" />
-              <div>
-                <div className="font-medium text-sm">Examples</div>
-                <div className="text-xs text-slate-500">
-                  {errorData.examples?.length || 0} scenarios
-                </div>
-              </div>
-            </Link>
-            
-            <Link 
-              href={`/errors/${errorData.canonical_slug}/related`}
-              className="flex items-center gap-2 p-3 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-            >
-              <BarChart3 className="h-4 w-4 text-purple-600" />
-              <div>
-                <div className="font-medium text-sm">Related Issues</div>
-                <div className="text-xs text-slate-500">
-                  {relatedErrors.length} similar
-                </div>
-              </div>
-            </Link>
-          </nav>
-        </div>
-
-        <div className="grid gap-8 lg:grid-cols-4">
-          {/* Main Content */}
-          <div className="lg:col-span-3 space-y-8">
-            {/* Quick Summary */}
-            {errorData.aliases && errorData.aliases.length > 0 && (
-              <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Alternative Names</h3>
-                <div className="flex flex-wrap gap-2">
-                  {errorData.aliases.map((alias: string, index: number) => (
-                    <Badge key={index} variant="outline" className="bg-white dark:bg-blue-900 border-blue-200 dark:border-blue-700">
-                      {alias}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Quick Fix */}
-            {errorData.fix_steps && errorData.fix_steps.length > 0 && (
-              <div className="bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Terminal className="h-5 w-5 text-green-600" />
-                  <h3 className="font-semibold text-green-900 dark:text-green-100">Quick Resolution</h3>
-                </div>
-                <h4 className="font-medium text-green-800 dark:text-green-200 mb-3">{errorData.fix_steps[0].step}</h4>
-                {errorData.fix_steps[0].commands && errorData.fix_steps[0].commands.length > 0 && (
-                  <div className="bg-slate-900 text-green-400 p-4 rounded-md mb-4 overflow-x-auto">
-                    <code className="text-sm font-mono">
-                      {errorData.fix_steps[0].commands[0]}
-                    </code>
-                  </div>
-                )}
-                <Button asChild className="bg-green-600 hover:bg-green-700 text-white">
-                  <Link href={`/errors/${errorData.canonical_slug}/fixes`}>
-                    View Complete Resolution Guide
-                  </Link>
-                </Button>
-              </div>
-            )}
-
-            {/* Root Causes Preview */}
-            {errorData.root_causes && errorData.root_causes.length > 0 && (
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Root Causes</h3>
-                  <Button variant="outline" asChild>
-                    <Link href={`/errors/${errorData.canonical_slug}/causes`}>
-                      View Complete Analysis
-                    </Link>
-                  </Button>
-                </div>
-                <div className="space-y-4">
-                  {errorData.root_causes.slice(0, 3).map((cause: any, index: number) => (
-                    <div key={index} className="border border-slate-200 dark:border-slate-700 rounded-lg p-5 bg-white dark:bg-slate-900">
-                      <div className="flex items-start justify-between mb-3">
-                        <h4 className="font-semibold text-slate-900 dark:text-slate-100">{cause.name}</h4>
-                        <div className="flex items-center gap-1 text-xs">
-                          <div className={cn(
-                            "w-2 h-2 rounded-full",
-                            cause.confidence >= 0.8 ? "bg-green-500" : 
-                            cause.confidence >= 0.6 ? "bg-yellow-500" : "bg-red-500"
-                          )} />
-                          <span className="text-slate-500">{Math.round(cause.confidence * 100)}%</span>
-                        </div>
-                      </div>
-                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{cause.why}</p>
+              {/* Alternative Names */}
+              {errorData.aliases && errorData.aliases.length > 0 && (
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="font-medium text-slate-900 mb-3">Also known as:</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {errorData.aliases.map((alias: string, index: number) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {alias}
+                        </Badge>
+                      ))}
                     </div>
-                  ))}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Common Causes */}
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <h2 className="text-xl font-semibold text-slate-900">Common causes</h2>
+                  <p className="text-slate-600">
+                    Ranked by likelihood and confidence based on real-world scenarios.
+                  </p>
                 </div>
+                {errorData.root_causes && errorData.root_causes.length > 0 ? (
+                  <div className="space-y-4">
+                    {errorData.root_causes.map((cause: any, index: number) => (
+                      <Card key={index}>
+                        <CardContent className="pt-6">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="space-y-1 flex-1">
+                              <h3 className="font-medium text-slate-900">{index + 1}. {cause.name}</h3>
+                              <div className="flex items-center gap-2">
+                                <Badge 
+                                  variant="outline" 
+                                  className={cn("text-xs", getConfidenceColor(cause.confidence))}
+                                >
+                                  {getConfidenceBadge(cause.confidence)} confidence
+                                </Badge>
+                                <span className="text-xs text-slate-500">
+                                  {Math.round(cause.confidence * 100)}% likelihood
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="text-slate-600 leading-relaxed">{cause.why}</p>
+                          {cause.sources && cause.sources.length > 0 && (
+                            <div className="mt-3 pt-3 border-t border-slate-100">
+                              <div className="flex flex-wrap gap-2">
+                                {cause.sources.map((source: any, sourceIndex: number) => (
+                                  <Link 
+                                    key={sourceIndex}
+                                    href={source.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800"
+                                  >
+                                    {source.label}
+                                    <ExternalLink className="h-3 w-3" />
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <Card>
+                    <CardContent className="pt-6">
+                      <p className="text-slate-500 text-center py-4">
+                        No documented causes available for this error yet.
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
               </div>
-            )}
-          </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Technical Details */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base">Technical Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Applies to</span>
-                  <Badge variant="outline" className="capitalize font-mono text-xs">
-                    {errorData.tool}
-                  </Badge>
+              {/* Step-by-step fixes */}
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <h2 className="text-xl font-semibold text-slate-900">Step-by-step fixes</h2>
+                  <p className="text-slate-600">
+                    Follow these procedures in order to resolve the issue.
+                  </p>
                 </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Category</span>
-                  <Badge className={cn("capitalize text-xs", getCategoryColor(errorData.category))}>
-                    {errorData.category}
-                  </Badge>
+                {errorData.fix_steps && errorData.fix_steps.length > 0 ? (
+                  <div className="space-y-4">
+                    {errorData.fix_steps.map((step: any, index: number) => (
+                      <Card key={index}>
+                        <CardContent className="pt-6">
+                          <div className="space-y-3">
+                            <div className="flex items-start gap-3">
+                              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-xs font-medium text-indigo-600">
+                                {index + 1}
+                              </div>
+                              <div className="space-y-2 flex-1">
+                                <h3 className="font-medium text-slate-900">{step.step}</h3>
+                                {step.commands && step.commands.length > 0 && (
+                                  <div className="space-y-2">
+                                    {step.commands.map((command: string, cmdIndex: number) => (
+                                      <div key={cmdIndex} className="relative">
+                                        <pre className="bg-slate-900 text-slate-100 p-3 rounded-md overflow-x-auto text-sm font-mono">
+                                          <code>{command}</code>
+                                        </pre>
+                                        <span className="absolute top-2 right-2 p-1 rounded text-slate-400 cursor-pointer" title="Copy to clipboard">
+                                          <Copy className="h-3 w-3" />
+                                        </span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                                {step.sources && step.sources.length > 0 && (
+                                  <div className="flex flex-wrap gap-2">
+                                    {step.sources.map((source: any, sourceIndex: number) => (
+                                      <Link 
+                                        key={sourceIndex}
+                                        href={source.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800"
+                                      >
+                                        {source.label}
+                                        <ExternalLink className="h-3 w-3" />
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <Card>
+                    <CardContent className="pt-6">
+                      <p className="text-slate-500 text-center py-4">
+                        No documented fix steps available for this error yet.
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+              {/* Examples */}
+              {errorData.examples && errorData.examples.length > 0 && (
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <h2 className="text-xl font-semibold text-slate-900">Examples</h2>
+                    <p className="text-slate-600">
+                      Real-world scenarios and their solutions.
+                    </p>
+                  </div>
+                  <div className="space-y-4">
+                    {errorData.examples.map((example: any, index: number) => (
+                      <Card key={index}>
+                        <CardContent className="pt-6">
+                          <div className="space-y-3">
+                            <h3 className="font-medium text-slate-900">{example.name}</h3>
+                            <div className="space-y-2">
+                              <div>
+                                <h4 className="text-sm font-medium text-slate-700">Symptom:</h4>
+                                <p className="text-sm text-slate-600">{example.symptom}</p>
+                              </div>
+                              <div>
+                                <h4 className="text-sm font-medium text-slate-700">Solution:</h4>
+                                <p className="text-sm text-slate-600">{example.fix}</p>
+                              </div>
+                            </div>
+                            {example.sources && example.sources.length > 0 && (
+                              <div className="pt-2 border-t border-slate-100">
+                                <div className="flex flex-wrap gap-2">
+                                  {example.sources.map((source: any, sourceIndex: number) => (
+                                    <Link 
+                                      key={sourceIndex}
+                                      href={source.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800"
+                                    >
+                                      {source.label}
+                                      <ExternalLink className="h-3 w-3" />
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Identifier</span>
-                  <code className="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded font-mono">
-                    {errorData.canonical_slug}
-                  </code>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Last updated</span>
-                  <span className="text-xs text-slate-500">
-                    {new Date(errorData.updated_at).toLocaleDateString()}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
+              )}
+            </div>
 
-            {/* Documentation Reliability */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base">Documentation Quality</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Sources</span>
-                  <span className="text-xs font-medium text-green-600">Official</span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Completeness</span>
-                  <span className="text-xs font-medium text-green-600">100%</span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Verified</span>
-                  <span className="text-xs font-medium text-green-600">Yes</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Related Documentation */}
-            {relatedErrors.length > 0 && (
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* Technical Details */}
               <Card>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Related Issues</CardTitle>
+                  <CardTitle className="text-base font-medium">Error Details</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  {relatedErrors.slice(0, 4).map((related: any, index: number) => (
-                    <Link 
-                      key={index}
-                      href={`/errors/${related.canonical_slug}`} 
-                      className="block p-3 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                    >
-                      <div className="font-medium text-sm text-slate-900 dark:text-slate-100 leading-tight">
-                        {related.title.length > 40 ? related.title.substring(0, 40) + '...' : related.title}
-                      </div>
-                      <div className="text-xs text-slate-500 mt-1">
-                        {related.category} • {related.tool}
-                      </div>
-                    </Link>
-                  ))}
-                  <Button variant="outline" asChild className="w-full mt-3 text-xs">
-                    <Link href={`/errors/${errorData.canonical_slug}/related`}>
-                      View All Related Issues
-                    </Link>
-                  </Button>
+                <CardContent className="space-y-3 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Category</span>
+                    <Badge variant="outline" className="text-xs capitalize">
+                      {errorData.category}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Tool</span>
+                    <Badge variant="outline" className="text-xs capitalize">
+                      {errorData.tool}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Confidence</span>
+                    <Badge className="text-xs">
+                      <Shield className="h-3 w-3 mr-1" />
+                      High
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Last updated</span>
+                    <span className="text-xs text-slate-900">
+                      {new Date(errorData.updated_at).toLocaleDateString()}
+                    </span>
+                  </div>
                 </CardContent>
               </Card>
-            )}
 
-            {/* Export Options */}
-            <Card>
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">Export Documentation</CardTitle>
-                  {!hasFeature("EXPORT_REPORTS") && <EnterpriseBadge size="sm" />}
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full text-xs"
-                  disabled={!hasFeature("EXPORT_REPORTS")}
-                >
-                  <Download className="h-3 w-3 mr-1" />
-                  Export as PDF
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full text-xs"
-                  disabled={!hasFeature("EXPORT_REPORTS")}
-                >
-                  <Download className="h-3 w-3 mr-1" />
-                  Export as Markdown
-                </Button>
-                {!hasFeature("EXPORT_REPORTS") && (
-                  <p className="text-xs text-slate-500 text-center mt-2">
-                    Available in Pro and Team plans
-                  </p>
-                )}
-              </CardContent>
-            </Card>
+              {/* Official Sources */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-medium">Official Sources</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {errorData.root_causes?.[0]?.sources?.length > 0 ? (
+                    errorData.root_causes[0].sources.map((source: any, index: number) => (
+                      <Link
+                        key={index}
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between p-2 rounded border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition-colors group"
+                      >
+                        <span className="text-sm text-slate-900 group-hover:text-indigo-600">
+                          {source.label}
+                        </span>
+                        <ExternalLink className="h-3 w-3 text-slate-400 group-hover:text-indigo-600" />
+                      </Link>
+                    ))
+                  ) : (
+                    <p className="text-sm text-slate-500">
+                      No external sources available
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
 
-            {/* Category Documentation */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base">Browse Category</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button asChild className="w-full text-sm" variant="outline">
-                  <Link href={`/kubernetes/errors/${errorData.category}`}>
-                    All {errorData.category} documentation
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
+              {/* Related Errors */}
+              {relatedErrors.length > 0 && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base font-medium">Related Errors</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    {relatedErrors.slice(0, 3).map((related: any, index: number) => (
+                      <Link 
+                        key={index}
+                        href={`/errors/${related.canonical_slug}`} 
+                        className="block p-3 rounded border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition-colors group"
+                      >
+                        <div className="text-sm font-medium text-slate-900 group-hover:text-indigo-600 leading-tight mb-1">
+                          {related.title.length > 35 ? related.title.substring(0, 35) + '...' : related.title}
+                        </div>
+                        <div className="text-xs text-slate-500">
+                          {related.category} • {related.tool}
+                        </div>
+                      </Link>
+                    ))}
+                    {relatedErrors.length > 3 && (
+                      <Button variant="ghost" size="sm" className="w-full text-xs">
+                        View {relatedErrors.length - 3} more
+                      </Button>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Quick Actions */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-medium">Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <Button asChild variant="outline" size="sm" className="w-full text-xs justify-start">
+                    <Link href={`/errors?category=${errorData.category}`}>
+                      Browse {errorData.category} errors
+                    </Link>
+                  </Button>
+                  <span className="w-full text-xs justify-start border border-slate-200 rounded px-3 py-2 text-center text-slate-600 cursor-not-allowed block">
+                    Share this page
+                  </span>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
-      </div>
+      </DocLayout>
     </>
   )
 }
