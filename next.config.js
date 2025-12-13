@@ -4,6 +4,9 @@ const nextConfig = {
   turbopack: {
     resolveAlias: {
       '@': '.',
+      '@/components': './components',
+      '@/lib': './lib',
+      '@/app': './app',
     },
   },
   
@@ -58,9 +61,13 @@ const nextConfig = {
 
   // Webpack fallback for path resolution
   webpack: (config) => {
+    const path = require('path')
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': require('path').resolve(__dirname, '.'),
+      '@': path.resolve(__dirname, '.'),
+      '@/components': path.resolve(__dirname, 'components'),
+      '@/lib': path.resolve(__dirname, 'lib'),
+      '@/app': path.resolve(__dirname, 'app'),
     }
     return config
   },
