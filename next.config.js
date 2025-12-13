@@ -53,11 +53,7 @@ const nextConfig = {
 
   // Experimental features for better compatibility
   experimental: {
-    turbo: {
-      resolveAlias: {
-        '@': '.',
-      },
-    },
+    // Remove turbo config as it's not valid for Next.js 16
   },
 
   // Webpack fallback for path resolution
