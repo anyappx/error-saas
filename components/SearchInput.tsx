@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Button } from './ui/Button'
-import { Card } from './ui/Card'
+import { Button } from './ui/button'
+import { Card } from './ui/card'
 
 interface SearchResult {
   error: any
@@ -71,6 +71,11 @@ export function SearchInput({
 
     try {
       const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`)
+      
+      if (!response.ok) {
+        throw new Error(`Search failed: ${response.statusText}`)
+      }
+      
       const data = await response.json()
       
       if (data.results) {
@@ -78,6 +83,7 @@ export function SearchInput({
       }
     } catch (error) {
       console.error('Search failed:', error)
+      onResults?.([])
     } finally {
       setIsLoading(false)
     }

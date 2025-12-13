@@ -183,9 +183,7 @@ process.on('SIGTERM', () => {
 })
 
 // Run the seeding
-if (require.main === module) {
-  seedProduction().catch((error) => {
-    logger.error('💥 Seeding failed:', error)
-    process.exit(1)
-  })
-}
+seedProduction().catch((error) => {
+  logger.error('💥 Seeding failed:', error)
+  process.exit(1)
+})
