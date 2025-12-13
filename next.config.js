@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Basic Turbopack config to avoid conflicts
-  turbopack: {},
+  // Enhanced Turbopack config for path resolution
+  turbopack: {
+    resolveAlias: {
+      '@': '.',
+    },
+  },
   
   // Production configuration
   images: {
@@ -45,7 +49,25 @@ const nextConfig = {
   },
 
   // Output configuration for serverless
-  output: 'standalone'
+  output: 'standalone',
+
+  // Experimental features for better compatibility
+  experimental: {
+    turbo: {
+      resolveAlias: {
+        '@': '.',
+      },
+    },
+  },
+
+  // Webpack fallback for path resolution
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': require('path').resolve(__dirname, '.'),
+    }
+    return config
+  },
 }
 
 export default nextConfig
