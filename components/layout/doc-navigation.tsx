@@ -19,6 +19,7 @@ interface NavItem {
   title: string
   href: string
   count?: number
+  pro?: boolean
 }
 
 const navigation: NavSection[] = [
@@ -152,7 +153,15 @@ export function DocNavigation() {
                             : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                         )}
                       >
-                        <span>{item.title}</span>
+                        <span className="flex items-center gap-2">
+                          {item.title}
+                          {item.pro && (
+                            <Badge variant="secondary" className="text-xs h-5 px-1.5">
+                              <Crown className="h-3 w-3 mr-1" />
+                              Pro
+                            </Badge>
+                          )}
+                        </span>
                         {item.count && (
                           <Badge 
                             variant="outline" 
