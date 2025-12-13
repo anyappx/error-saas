@@ -1,14 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enhanced Turbopack config for path resolution
-  turbopack: {
-    resolveAlias: {
-      '@': '.',
-      '@/components': './components',
-      '@/lib': './lib',
-      '@/app': './app',
-    },
-  },
+  // Disable Turbopack to force webpack usage for better compatibility
+  // turbopack: false, // Not needed, webpack is default for production
   
   // Production configuration
   images: {

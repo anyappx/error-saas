@@ -1,6 +1,6 @@
 import { Badge } from "./badge"
 import { Crown } from "lucide-react"
-import { cn } from "../../lib/utils"
+import { cn } from "@/lib/utils"
 
 interface EnterpriseBadgeProps {
   className?: string
