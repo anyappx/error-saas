@@ -116,6 +116,20 @@ export default function DashboardPage() {
     }
   }
 
+  const getCategoryDescription = (category: string) => {
+    const descriptions = {
+      auth: "Authentication and authorization failures, RBAC issues, and permission-related errors",
+      network: "Network connectivity, DNS resolution, ingress, and service communication issues",
+      runtime: "Pod execution, container crashes, resource limitations, and application runtime errors",
+      scheduler: "Pod scheduling failures, resource constraints, node affinity, and placement issues",
+      storage: "Persistent volume claims, storage class problems, and volume mounting errors",
+      config: "ConfigMap, Secret, and configuration-related issues affecting pod startup",
+      cluster: "Cluster-wide issues, node problems, and infrastructure-level errors",
+      registry: "Container image registry access and image pull problems"
+    }
+    return descriptions[category as keyof typeof descriptions] || "General Kubernetes operational issues and errors"
+  }
+
   // Generate category stats
   const categoryStats = React.useMemo(() => {
     if (!dashboardData) return []
@@ -184,117 +198,181 @@ export default function DashboardPage() {
   return (
     <DocLayout>
       <div className="space-y-8">
-        {/* Header */}
-        <div className="space-y-1">
-          <h1 className="text-2xl font-semibold text-slate-900">Overview</h1>
-          <p className="text-slate-600">
-            Comprehensive troubleshooting reference for Kubernetes errors and operational issues
+        {/* Enterprise Header */}
+        <div className="space-y-3">
+          <h1>Kubernetes Error Documentation</h1>
+          <p className="text-lg text-slate-600">
+            Enterprise-grade troubleshooting reference for Kubernetes clusters and workloads
           </p>
+          {dashboardData && (
+            <div className="flex items-center gap-6 text-sm text-slate-600">
+              <span className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                {dashboardData.total} documented errors
+              </span>
+              <span className="flex items-center gap-2">
+                <Grid className="h-4 w-4 text-blue-600" />
+                {dashboardData.categories.length} categories
+              </span>
+              <span className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-slate-500" />
+                Updated daily
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* Overview Card */}
+        {/* Enterprise Stats Cards */}
         {dashboardData && (
-          <Card>
-            <CardContent className="pt-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-slate-600">Documented Errors</p>
-                  <p className="text-3xl font-semibold text-slate-900">{dashboardData.total}</p>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <Card className="border-emerald-200 bg-emerald-50">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-emerald-100 rounded-lg">
+                    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-semibold text-emerald-900">{dashboardData.total}</p>
+                    <p className="text-sm font-medium text-emerald-700">Total Errors</p>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-slate-600">Categories</p>
-                  <p className="text-3xl font-semibold text-slate-900">{dashboardData.categories.length}</p>
+              </CardContent>
+            </Card>
+            <Card className="border-blue-200 bg-blue-50">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <Grid className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-semibold text-blue-900">{dashboardData.categories.length}</p>
+                    <p className="text-sm font-medium text-blue-700">Categories</p>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-slate-600">Last Updated</p>
-                  <p className="text-sm text-slate-900">{formatDate(new Date().toISOString())}</p>
-                  <Badge variant="secondary" className="text-xs">
-                    <Database className="h-3 w-3 mr-1" />
-                    Live database
-                  </Badge>
+              </CardContent>
+            </Card>
+            <Card className="border-amber-200 bg-amber-50">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-amber-100 rounded-lg">
+                    <AlertTriangle className="h-5 w-5 text-amber-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-semibold text-amber-900">15</p>
+                    <p className="text-sm font-medium text-amber-700">Critical Issues</p>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+            <Card className="border-slate-200 bg-slate-50">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-slate-100 rounded-lg">
+                    <Activity className="h-5 w-5 text-slate-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-semibold text-slate-900">24/7</p>
+                    <p className="text-sm font-medium text-slate-700">Monitoring</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         )}
 
-        {/* Popular Errors */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold">Popular Errors</CardTitle>
-            <CardDescription>
-              Most commonly referenced Kubernetes errors
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {dashboardData?.results.slice(0, 5).map((result, index) => {
-              const confidenceColor = result.score > 80 ? "text-emerald-600" : result.score > 60 ? "text-amber-600" : "text-slate-500"
-              return (
-                <div
-                  key={`${result.error.canonical_slug}-${index}`}
-                  className="border-l-2 border-slate-200 pl-4 space-y-1"
-                >
+        {/* Enterprise Category Grid */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2>Error Categories</h2>
+            <Link 
+              href="/errors" 
+              className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+            >
+              Browse all errors
+              <ExternalLink className="h-3 w-3" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categoryStats.map((stat) => (
+              <Card key={stat.category} className="hover:shadow-md transition-shadow border border-slate-200">
+                <CardContent className="p-6">
                   <div className="flex items-start justify-between">
-                    <div className="space-y-1 flex-1">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-slate-100 rounded-lg">
+                          <stat.icon className="h-5 w-5 text-slate-600" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-slate-900 capitalize">{stat.category}</h3>
+                          <p className="text-sm text-slate-600">{stat.count} documented errors</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-600 leading-relaxed">
+                        {getCategoryDescription(stat.category)}
+                      </p>
                       <Link 
-                        href={`/errors/${result.error.canonical_slug}`}
-                        className="text-sm font-medium text-slate-900 hover:text-indigo-600 flex items-center gap-2"
+                        href={`/errors?category=${stat.category}`}
+                        className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
                       >
-                        {result.error.title}
+                        View errors
                         <ExternalLink className="h-3 w-3" />
                       </Link>
-                      <p className="text-sm text-slate-600">
-                        {result.error.summary.substring(0, 120)}...
-                      </p>
                     </div>
-                    <div className="flex items-center gap-2 ml-4">
-                      <Badge variant="outline" className="text-xs capitalize">
-                        {result.error.category}
-                      </Badge>
-                      <span className={cn("text-xs font-medium", confidenceColor)}>
-                        {Math.round((result.score / 100) * 100)}%
-                      </span>
-                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <Card>
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Recent Error Reports</CardTitle>
+                <CardDescription>Latest documented errors and troubleshooting guides</CardDescription>
+              </div>
+              <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 border-emerald-200">
+                Live updates
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {dashboardData?.results.slice(0, 5).map((result, index) => (
+              <div
+                key={`${result.error.canonical_slug}-${index}`}
+                className="flex items-start gap-4 p-4 border border-slate-100 rounded-lg hover:border-slate-200 transition-colors"
+              >
+                <div className="p-2 bg-slate-100 rounded-lg mt-1">
+                  {(() => {
+                    const Icon = getCategoryIcon(result.error.category)
+                    return <Icon className="h-4 w-4 text-slate-600" />
+                  })()}
+                </div>
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-start justify-between">
+                    <Link 
+                      href={`/errors/${result.error.canonical_slug}`}
+                      className="font-medium text-slate-900 hover:text-blue-600 transition-colors"
+                    >
+                      {result.error.title}
+                    </Link>
+                    <Badge variant="outline" className="text-xs bg-slate-50 capitalize">
+                      {result.error.category}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-slate-600 line-clamp-2">
+                    {result.error.summary}
+                  </p>
+                  <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <span>Tool: {result.error.tool}</span>
+                    <span>•</span>
+                    <span>Updated {formatDate(result.error.updated_at)}</span>
                   </div>
                 </div>
-              )
-            }) || (
-              <p className="text-slate-500 text-center py-4">
-                No errors found in this category yet.
-              </p>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Categories Grid */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold">Error Categories</CardTitle>
-            <CardDescription>
-              Browse errors by category
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {categoryStats.map(({ category, count, icon: Icon, color }) => (
-                <Link
-                  key={category}
-                  href={`/errors?category=${category}`}
-                  className="border border-slate-200 rounded-lg p-4 hover:border-indigo-300 hover:bg-slate-50 transition-colors group"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <Icon className={cn("h-5 w-5", color)} />
-                    <span className="text-sm font-medium text-slate-900">{count}</span>
-                  </div>
-                  <h3 className="text-sm font-medium text-slate-900 capitalize group-hover:text-indigo-600">
-                    {category}
-                  </h3>
-                  <p className="text-xs text-slate-500 mt-1">
-                    {count} documented errors
-                  </p>
-                </Link>
-              ))}
-            </div>
+              </div>
+            ))}
           </CardContent>
         </Card>
 

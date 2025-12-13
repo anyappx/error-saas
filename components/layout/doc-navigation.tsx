@@ -27,32 +27,49 @@ const navigation: NavSection[] = [
     href: "/dashboard",
   },
   {
-    title: "Kubernetes Errors",
+    title: "Error Categories",
     collapsible: true,
     items: [
-      { title: "Auth", href: "/errors?category=auth", count: 8 },
-      { title: "Network", href: "/errors?category=network", count: 12 },
-      { title: "Runtime", href: "/errors?category=runtime", count: 15 },
-      { title: "Scheduler", href: "/errors?category=scheduler", count: 6 },
-      { title: "Storage", href: "/errors?category=storage", count: 9 },
-      { title: "Config", href: "/errors?category=config", count: 11 },
-      { title: "Cluster", href: "/errors?category=cluster", count: 7 },
+      { title: "Authentication & Authorization", href: "/errors?category=auth", count: 8 },
+      { title: "Network & Connectivity", href: "/errors?category=network", count: 12 },
+      { title: "Runtime & Execution", href: "/errors?category=runtime", count: 15 },
+      { title: "Scheduling & Resources", href: "/errors?category=scheduler", count: 6 },
+      { title: "Storage & Volumes", href: "/errors?category=storage", count: 9 },
+      { title: "Configuration", href: "/errors?category=config", count: 11 },
+      { title: "Cluster Management", href: "/errors?category=cluster", count: 7 },
     ],
   },
   {
-    title: "Tools",
+    title: "Browse All Errors",
+    href: "/errors",
+  },
+  {
+    title: "Troubleshooting Tools",
     collapsible: true,
     items: [
-      { title: "Docker", href: "/tools/docker" },
-      { title: "Helm", href: "/tools/helm" },
-      { title: "kubectl", href: "/tools/kubectl" },
-      { title: "CNI", href: "/tools/cni" },
+      { title: "Docker Diagnostics", href: "/tools/docker" },
+      { title: "Helm Operations", href: "/tools/helm" },
+      { title: "kubectl Commands", href: "/tools/kubectl" },
+      { title: "CNI & Networking", href: "/tools/cni" },
     ],
   },
   {
-    title: "Bulk Analysis",
-    href: "/analysis",
-    pro: true,
+    title: "Enterprise Features",
+    collapsible: true,
+    items: [
+      { title: "Bulk Analysis", href: "/analysis", pro: true },
+      { title: "Custom Monitoring", href: "/monitoring", pro: true },
+      { title: "Team Management", href: "/teams", pro: true },
+    ],
+  },
+  {
+    title: "Support",
+    collapsible: true,
+    items: [
+      { title: "Documentation", href: "/docs" },
+      { title: "API Reference", href: "/api-docs" },
+      { title: "Contact Support", href: "/support" },
+    ],
   },
   {
     title: "Pricing",
@@ -63,8 +80,7 @@ const navigation: NavSection[] = [
 export function DocNavigation() {
   const pathname = usePathname()
   const [expandedSections, setExpandedSections] = useState<string[]>([
-    "Kubernetes Errors",
-    "Tools",
+    "Error Categories",
   ])
 
   const toggleSection = (title: string) => {
@@ -138,7 +154,10 @@ export function DocNavigation() {
                       >
                         <span>{item.title}</span>
                         {item.count && (
-                          <Badge variant="outline" className="text-xs">
+                          <Badge 
+                            variant="outline" 
+                            className="text-xs bg-slate-100 text-slate-600 border-slate-200"
+                          >
                             {item.count}
                           </Badge>
                         )}
