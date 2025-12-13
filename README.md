@@ -82,4 +82,4 @@ Two collections:
 - `pnpm dev` - Start development server
 - `pnpm build` - Build for production
 - `pnpm start` - Start production server
-- `pnpm run seed` - Seed database with error data
+- `pnpm run seed` - Seed database with error data# error-saas
