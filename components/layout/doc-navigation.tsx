@@ -45,31 +45,10 @@ const navigation: NavSection[] = [
     href: "/errors",
   },
   {
-    title: "Troubleshooting Tools",
-    collapsible: true,
-    items: [
-      { title: "Docker Diagnostics", href: "/tools/docker" },
-      { title: "Helm Operations", href: "/tools/helm" },
-      { title: "kubectl Commands", href: "/tools/kubectl" },
-      { title: "CNI & Networking", href: "/tools/cni" },
-    ],
-  },
-  {
-    title: "Enterprise Features",
+    title: "Advanced Features",
     collapsible: true,
     items: [
       { title: "Bulk Analysis", href: "/analysis", pro: true },
-      { title: "Custom Monitoring", href: "/monitoring", pro: true },
-      { title: "Team Management", href: "/teams", pro: true },
-    ],
-  },
-  {
-    title: "Support",
-    collapsible: true,
-    items: [
-      { title: "Documentation", href: "/docs" },
-      { title: "API Reference", href: "/api-docs" },
-      { title: "Contact Support", href: "/support" },
     ],
   },
   {
