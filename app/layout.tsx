@@ -74,13 +74,11 @@ export default function RootLayout({
         <meta name="theme-color" content="#0f172a" />
       </head>
       <body className={cn(
-        'min-h-screen bg-slate-50 font-sans antialiased',
+        'min-h-screen bg-white font-sans antialiased',
         inter.variable,
         jetbrainsMono.variable
       )}>
-        <div className="flex min-h-screen">
-          {children}
-        </div>
+        {children}
         <ToastProvider />
       </body>
     </html>
