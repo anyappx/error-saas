@@ -1,4 +1,4 @@
-@import url('../stripe-theme.css');
+@import url('./stripe-theme.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

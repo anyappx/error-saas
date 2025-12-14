@@ -47,9 +47,11 @@ const nextConfig = {
   // Output configuration for serverless
   output: 'standalone',
 
-  // Remove experimental turbo configuration - invalid in Next.js 16
+  // Turbopack configuration to silence warnings
+  turbopack: {},
+  
   experimental: {
-    // No turbopack overrides here for Next.js 16
+    // No additional experimental features
   },
 
   // Add webpack alias configuration back as fallback
