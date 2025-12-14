@@ -38,7 +38,7 @@ export function DocLayout({ children, showAIAssistant = false }: DocLayoutProps)
   }, [isMobileNavOpen])
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-gray-50">
+    <div className="flex flex-col w-full min-h-screen bg-gray-50 stripe-bg-secondary">
       <DocHeader 
         onToggleNav={() => setIsMobileNavOpen(!isMobileNavOpen)}
         isMobileNavOpen={isMobileNavOpen}
@@ -55,7 +55,7 @@ export function DocLayout({ children, showAIAssistant = false }: DocLayoutProps)
         
         {/* Sidebar */}
         <aside className={cn(
-          "fixed top-16 left-0 z-50 h-[calc(100vh-4rem)] w-80",
+          "fixed top-16 left-0 z-50 h-[calc(100vh-4rem)] w-80 stripe-sidebar",
           "lg:sticky lg:z-auto",
           "transform transition-transform duration-300 ease-in-out",
           isMobile && !isMobileNavOpen ? "-translate-x-full" : "translate-x-0",
@@ -65,9 +65,9 @@ export function DocLayout({ children, showAIAssistant = false }: DocLayoutProps)
         </aside>
         
         {/* Main Content */}
-        <main className="flex-1 min-w-0">
+        <main className="flex-1 min-w-0 stripe-content">
           <div className="max-w-4xl mx-auto px-6 py-8 lg:px-8 lg:py-12">
-            <div className="prose prose-gray max-w-none">
+            <div className="prose prose-gray max-w-none stripe-body">
               {children}
             </div>
           </div>

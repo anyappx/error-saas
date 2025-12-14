@@ -112,19 +112,19 @@ export function DocNavigation({ onItemClick }: DocNavigationProps) {
   }
 
   return (
-    <nav className="h-full overflow-y-auto bg-white border-r border-gray-200">
+    <nav className="h-full overflow-y-auto bg-white border-r border-gray-200 stripe-bg-sidebar stripe-border-right">
       <div className="p-6">
         <div className="space-y-1">
           {navigation.map((section) => (
-            <div key={section.title}>
+            <div key={section.title} className="stripe-sidebar-section">
               {section.href ? (
                 <Link
                   href={section.href}
                   onClick={handleItemClick}
                   className={cn(
-                    "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors stripe-sidebar-link",
                     isActive(section.href)
-                      ? "bg-blue-50 text-blue-700 border-r-2 border-blue-700"
+                      ? "bg-blue-50 text-blue-700 border-r-2 border-blue-700 stripe-sidebar-link-active"
                       : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                   )}
                 >
@@ -134,7 +134,7 @@ export function DocNavigation({ onItemClick }: DocNavigationProps) {
                 <div className="py-2">
                   <button
                     onClick={() => toggleSection(section.title)}
-                    className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-md"
+                    className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-md stripe-sidebar-title"
                   >
                     <span>{section.title}</span>
                     <ChevronRight className={cn(
@@ -151,21 +151,21 @@ export function DocNavigation({ onItemClick }: DocNavigationProps) {
                           href={item.href}
                           onClick={handleItemClick}
                           className={cn(
-                            "flex items-center justify-between px-3 py-1.5 text-sm rounded-md transition-colors",
+                            "flex items-center justify-between px-3 py-1.5 text-sm rounded-md transition-colors stripe-sidebar-link",
                             isActive(item.href)
-                              ? "bg-blue-50 text-blue-700 font-medium"
+                              ? "bg-blue-50 text-blue-700 font-medium stripe-sidebar-link-active"
                               : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                           )}
                         >
                           <span>{item.title}</span>
                           <div className="flex items-center gap-2">
                             {item.badge && (
-                              <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                              <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full stripe-badge stripe-badge-warning">
                                 {item.badge}
                               </span>
                             )}
                             {item.count && (
-                              <span className="text-xs text-gray-400">
+                              <span className="text-xs text-gray-400 stripe-text-tertiary">
                                 {item.count}
                               </span>
                             )}

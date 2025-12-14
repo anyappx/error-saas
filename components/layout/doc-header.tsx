@@ -15,7 +15,7 @@ export function DocHeader({
   isMobileNavOpen = false 
 }: DocHeaderProps) {
   return (
-    <header className="h-16 border-b border-gray-200 bg-white sticky top-0 z-50 shadow-sm">
+    <header className="h-16 border-b border-gray-200 bg-white sticky top-0 z-50 shadow-sm stripe-nav">
       <div className="h-full flex items-center justify-between px-4 lg:px-6">
         {/* Left: Logo */}
         <div className="flex items-center">
@@ -23,7 +23,7 @@ export function DocHeader({
           <Button 
             variant="ghost" 
             size="sm" 
-            className="lg:hidden -ml-2 mr-2 p-2"
+            className="lg:hidden -ml-2 mr-2 p-2 stripe-btn-ghost"
             onClick={onToggleNav}
           >
             {isMobileNavOpen ? (
@@ -34,18 +34,18 @@ export function DocHeader({
           </Button>
           
           <Link href="/dashboard" className="flex items-center">
-            <span className="text-xl font-semibold text-gray-900">ErrorDocs</span>
+            <span className="text-xl font-semibold text-gray-900 stripe-text-primary">ErrorDocs</span>
           </Link>
         </div>
 
         {/* Center: Search */}
-        <div className="flex-1 max-w-md mx-4">
+        <div className="flex-1 max-w-md mx-4 stripe-search">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               type="search"
               placeholder="Search docs..."
-              className="w-full pl-10 pr-4 py-2 text-sm bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 text-sm bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent stripe-search-input"
             />
           </div>
         </div>
@@ -53,18 +53,18 @@ export function DocHeader({
         {/* Right: Navigation */}
         <div className="flex items-center space-x-4">
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/kubernetes" className="text-sm text-gray-600 hover:text-gray-900">
+            <Link href="/kubernetes" className="text-sm text-gray-600 hover:text-gray-900 stripe-nav-item">
               Docs
             </Link>
-            <Link href="/learning-paths" className="text-sm text-gray-600 hover:text-gray-900">
+            <Link href="/learning-paths" className="text-sm text-gray-600 hover:text-gray-900 stripe-nav-item">
               Learn
             </Link>
-            <Link href="/pricing" className="text-sm text-gray-600 hover:text-gray-900">
+            <Link href="/pricing" className="text-sm text-gray-600 hover:text-gray-900 stripe-nav-item">
               Pricing
             </Link>
           </nav>
           
-          <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700">
+          <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700 stripe-btn stripe-btn-primary">
             <Link href="/analysis">Sign up</Link>
           </Button>
         </div>

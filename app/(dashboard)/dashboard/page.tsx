@@ -194,8 +194,8 @@ export default function DashboardPage() {
     <div className="space-y-8">
         {/* Enterprise Header */}
         <div className="space-y-3">
-          <h1>Kubernetes Error Documentation</h1>
-          <p className="text-lg text-slate-600">
+          <h1 className="stripe-h1">Kubernetes Error Documentation</h1>
+          <p className="text-lg text-slate-600 stripe-body">
             Enterprise-grade troubleshooting reference for Kubernetes clusters and workloads
           </p>
           {dashboardData && (
@@ -219,7 +219,7 @@ export default function DashboardPage() {
         {/* Enterprise Stats Cards */}
         {dashboardData && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card className="border-emerald-200 bg-emerald-50">
+            <Card className="border-emerald-200 bg-emerald-50 stripe-card">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-emerald-100 rounded-lg">
@@ -232,7 +232,7 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-blue-200 bg-blue-50">
+            <Card className="border-blue-200 bg-blue-50 stripe-card">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-100 rounded-lg">
@@ -245,7 +245,7 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-amber-200 bg-amber-50">
+            <Card className="border-amber-200 bg-amber-50 stripe-card">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-amber-100 rounded-lg">
@@ -258,7 +258,7 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-slate-200 bg-slate-50">
+            <Card className="border-slate-200 bg-slate-50 stripe-card">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-slate-100 rounded-lg">
@@ -277,7 +277,7 @@ export default function DashboardPage() {
         {/* Enterprise Category Grid */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2>Error Categories</h2>
+            <h2 className="stripe-h2">Error Categories</h2>
             <Link 
               href="/errors" 
               className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
@@ -288,7 +288,7 @@ export default function DashboardPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categoryStats.map((stat) => (
-              <Card key={stat.category} className="hover:shadow-md transition-shadow border border-slate-200">
+              <Card key={stat.category} className="hover:shadow-md transition-shadow border border-slate-200 stripe-card stripe-card-elevated">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="space-y-3">
@@ -320,12 +320,12 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Activity */}
-        <Card>
+        <Card className="stripe-card">
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Recent Error Reports</CardTitle>
-                <CardDescription>Latest documented errors and troubleshooting guides</CardDescription>
+                <CardTitle className="stripe-h3">Recent Error Reports</CardTitle>
+                <CardDescription className="stripe-body-small">Latest documented errors and troubleshooting guides</CardDescription>
               </div>
               <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 border-emerald-200">
                 Live updates
