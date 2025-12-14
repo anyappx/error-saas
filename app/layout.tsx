@@ -74,7 +74,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0f172a" />
       </head>
       <body className={cn(
-        'min-h-screen bg-white font-sans antialiased stripe-font-primary stripe-bg-primary',
+        'min-h-screen font-sans antialiased stripe-font-primary stripe-bg-primary',
         inter.variable,
         jetbrainsMono.variable
       )}>

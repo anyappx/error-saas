@@ -5,9 +5,9 @@ import { Card, CardContent } from '@/components/ui/card'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white stripe-bg-primary">
+    <div className="min-h-screen stripe-bg-primary">
       {/* Navigation */}
-      <header className="border-b border-gray-100 stripe-nav">
+      <header className="border-b border-gray-100 stripe-nav stripe-bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -67,7 +67,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-gray-50 stripe-bg-secondary">
+      <section className="py-16 stripe-bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4 stripe-h2">
@@ -159,7 +159,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gray-50 stripe-bg-secondary">
+      <section className="py-16 stripe-bg-secondary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4 stripe-h2">
             Ready to solve your Kubernetes challenges?

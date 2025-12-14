@@ -6,25 +6,26 @@
 
 /* ===== CSS VARIABLES ===== */
 :root {
-  /* Brand Colors */
-  --stripe-brand-primary: #5469D4;
-  --stripe-brand-primary-hover: #4361CC;
-  --stripe-brand-primary-active: #3B59C4;
+  /* Brand Colors - Real Stripe */
+  --stripe-brand-primary: #0A2540;
+  --stripe-brand-primary-hover: #081E34;
+  --stripe-brand-primary-active: #061A2E;
+  --stripe-brand-accent: #9966FF;
   --stripe-brand-logo: #0A2540;
 
-  /* Text Colors */
+  /* Text Colors - Real Stripe */
   --stripe-text-primary: #0A2540;
-  --stripe-text-secondary: #414552;
-  --stripe-text-tertiary: #8898AA;
+  --stripe-text-secondary: #6B7280;
+  --stripe-text-tertiary: #9CA3AF;
   --stripe-text-inverse: #FFFFFF;
-  --stripe-text-link: #5469D4;
-  --stripe-text-link-hover: #4361CC;
+  --stripe-text-link: #0A2540;
+  --stripe-text-link-hover: #081E34;
 
-  /* Background Colors */
-  --stripe-bg-primary: #FFFFFF;
-  --stripe-bg-secondary: #FAFBFC;
-  --stripe-bg-tertiary: #F6F9FC;
-  --stripe-bg-sidebar: #FAFBFC;
+  /* Background Colors - Real Stripe */
+  --stripe-bg-primary: #F6F9FC;
+  --stripe-bg-secondary: #FFFFFF;
+  --stripe-bg-tertiary: #F3F4F6;
+  --stripe-bg-sidebar: #FFFFFF;
   --stripe-bg-nav: #FFFFFF;
   --stripe-bg-code: #F6F9FC;
 
@@ -45,8 +46,8 @@
   --stripe-shadow-medium: rgba(0, 0, 0, 0.12);
   --stripe-shadow-heavy: rgba(0, 0, 0, 0.16);
 
-  /* Typography */
-  --stripe-font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji';
+  /* Typography - Real Stripe */
+  --stripe-font-primary: 'Sohne Var', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --stripe-font-code: SFMono-Regular, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   /* Font Weights */
@@ -247,7 +248,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--stripe-radius-md);
+  border-radius: 16.5px; /* Real Stripe button radius */
   font-family: var(--stripe-font-primary);
   font-size: var(--stripe-font-size-sm);
   font-weight: var(--stripe-font-weight-medium);
@@ -258,7 +259,7 @@
   text-decoration: none;
   white-space: nowrap;
   outline: none;
-  box-shadow: var(--stripe-shadow-sm);
+  box-shadow: none; /* Stripe buttons have no shadow */
 }
 
 .stripe-btn:focus {
