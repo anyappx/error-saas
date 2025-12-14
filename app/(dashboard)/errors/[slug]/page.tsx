@@ -17,7 +17,6 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { safeFindErrorBySlug, safeFindErrors } from "@/lib/dbFallback"
-import { DocLayout } from "@/components/layout/doc-layout"
 
 interface ErrorDetailProps {
   params: Promise<{
@@ -175,24 +174,23 @@ export default async function ErrorDetailPage({ params }: ErrorDetailProps) {
         }}
       />
       
-      <DocLayout>
-        <div className="space-y-8">
-          {/* Breadcrumb Navigation */}
-          <nav className="flex items-center space-x-2 text-sm text-slate-600 mb-6">
-            <Link href="/dashboard" className="hover:text-indigo-600">
-              Overview
-            </Link>
-            <span>/</span>
-            <Link href="/errors" className="hover:text-indigo-600">
-              Errors
-            </Link>
-            <span>/</span>
-            <span className="text-slate-900">{errorData.title}</span>
-          </nav>
+      <div className="space-y-8">
+        {/* Breadcrumb Navigation */}
+        <nav className="flex items-center space-x-2 text-sm text-slate-600 mb-6">
+          <Link href="/dashboard" className="hover:text-indigo-600">
+            Overview
+          </Link>
+          <span>/</span>
+          <Link href="/errors" className="hover:text-indigo-600">
+            Errors
+          </Link>
+          <span>/</span>
+          <span className="text-slate-900">{errorData.title}</span>
+        </nav>
 
-          {/* Header */}
-          <div className="space-y-4 pb-8 border-b border-slate-200">
-            <div className="flex items-center gap-3 mb-3">
+        {/* Header */}
+        <div className="space-y-4 pb-8 border-b border-slate-200">
+          <div className="flex items-center gap-3 mb-3">
               <Badge variant="outline" className="text-xs">
                 {errorData.tool}
               </Badge>
@@ -462,7 +460,10 @@ export default async function ErrorDetailPage({ params }: ErrorDetailProps) {
                   </div>
                 </CardContent>
               </Card>
+            </div>
 
+            {/* Sidebar */}
+            <div className="lg:col-span-1 space-y-6">
               {/* Official Sources */}
               <Card>
                 <CardHeader className="pb-3">
@@ -541,7 +542,6 @@ export default async function ErrorDetailPage({ params }: ErrorDetailProps) {
             </div>
           </div>
         </div>
-      </DocLayout>
     </>
   )
 }

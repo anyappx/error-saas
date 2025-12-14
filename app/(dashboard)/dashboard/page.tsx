@@ -20,7 +20,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
-import { DocLayout } from "@/components/layout/doc-layout"
 
 interface SearchResult {
   error: {
@@ -153,51 +152,46 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <DocLayout>
-        <div className="space-y-8">
-          <div className="space-y-2">
-            <div className="h-8 bg-slate-200 rounded w-64 animate-pulse"></div>
-            <div className="h-4 bg-slate-200 rounded w-96 animate-pulse"></div>
-          </div>
-          <div className="h-32 bg-slate-100 rounded animate-pulse"></div>
+      <div className="space-y-8">
+        <div className="space-y-2">
+          <div className="h-8 bg-slate-200 rounded w-64 animate-pulse"></div>
+          <div className="h-4 bg-slate-200 rounded w-96 animate-pulse"></div>
         </div>
-      </DocLayout>
+        <div className="h-32 bg-slate-100 rounded animate-pulse"></div>
+      </div>
     )
   }
 
   if (error) {
     return (
-      <DocLayout>
-        <div className="space-y-6">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-semibold text-slate-900">Overview</h1>
-            <p className="text-slate-600">Kubernetes Error Documentation</p>
-          </div>
-          <Card className="border-rose-200 bg-rose-50">
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-rose-600" />
-                <p className="text-rose-600 font-medium">Failed to load documentation overview</p>
-              </div>
-              <p className="text-rose-600 text-sm mt-1">{error}</p>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="mt-3 border-rose-200 text-rose-600 hover:bg-rose-100"
-                onClick={() => window.location.reload()}
-              >
-                Retry
-              </Button>
-            </CardContent>
-          </Card>
+      <div className="space-y-6">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold text-slate-900">Overview</h1>
+          <p className="text-slate-600">Kubernetes Error Documentation</p>
         </div>
-      </DocLayout>
+        <Card className="border-rose-200 bg-rose-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-rose-600" />
+              <p className="text-rose-600 font-medium">Failed to load documentation overview</p>
+            </div>
+            <p className="text-rose-600 text-sm mt-1">{error}</p>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="mt-3 border-rose-200 text-rose-600 hover:bg-rose-100"
+              onClick={() => window.location.reload()}
+            >
+              Retry
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     )
   }
 
   return (
-    <DocLayout>
-      <div className="space-y-8">
+    <div className="space-y-8">
         {/* Enterprise Header */}
         <div className="space-y-3">
           <h1>Kubernetes Error Documentation</h1>
@@ -377,6 +371,5 @@ export default function DashboardPage() {
         </Card>
 
       </div>
-    </DocLayout>
   )
 }

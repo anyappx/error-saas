@@ -26,7 +26,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import { DocLayout } from "@/components/layout/doc-layout"
 
 interface SearchResult {
   error: {
@@ -77,7 +76,7 @@ const categories = [
 function ErrorsPageContent() {
   const searchParams = useSearchParams()
   const [searchQuery, setSearchQuery] = React.useState("")
-  const [selectedCategory, setSelectedCategory] = React.useState("all")
+  const [selectedCategory, setSelectedCategory] = React.useState(searchParams.get("category") || "all")
   const [selectedTool, setSelectedTool] = React.useState(searchParams.get("tool") || "all")
   const [isLoading, setIsLoading] = React.useState(true)
   const [searchResults, setSearchResults] = React.useState<SearchResult[]>([])
@@ -118,10 +117,18 @@ function ErrorsPageContent() {
     }
   }, [])
 
+  // Update state when URL parameters change
+  React.useEffect(() => {
+    const category = searchParams.get("category") || "all"
+    const tool = searchParams.get("tool") || "all"
+    setSelectedCategory(category)
+    setSelectedTool(tool)
+  }, [searchParams])
+
   // Initial load - get all errors
   React.useEffect(() => {
-    performSearch("")
-  }, [performSearch])
+    performSearch("", selectedCategory, selectedTool)
+  }, [performSearch, selectedCategory, selectedTool])
 
   // Debounced search on query change
   React.useEffect(() => {
@@ -154,8 +161,7 @@ function ErrorsPageContent() {
 
 
   return (
-    <DocLayout>
-      <div className="space-y-8">
+    <div className="space-y-8">
         {/* Header */}
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold text-slate-900">Error Documentation</h1>
@@ -308,22 +314,19 @@ function ErrorsPageContent() {
           </div>
         )}
       </div>
-    </DocLayout>
   )
 }
 
 export default function ErrorsPage() {
   return (
     <Suspense fallback={
-      <DocLayout>
-        <div className="space-y-8">
-          <div className="animate-pulse">
-            <div className="h-8 bg-slate-200 rounded w-1/3 mb-2"></div>
-            <div className="h-4 bg-slate-200 rounded w-1/2"></div>
-          </div>
-          <div className="h-64 bg-slate-100 rounded"></div>
+      <div className="space-y-8">
+        <div className="animate-pulse">
+          <div className="h-8 bg-slate-200 rounded w-1/3 mb-2"></div>
+          <div className="h-4 bg-slate-200 rounded w-1/2"></div>
         </div>
-      </DocLayout>
+        <div className="h-64 bg-slate-100 rounded"></div>
+      </div>
     }>
       <ErrorsPageContent />
     </Suspense>

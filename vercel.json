@@ -69,11 +69,6 @@
   ],
   "redirects": [
     {
-      "source": "/errors",
-      "destination": "/kubernetes/errors",
-      "permanent": true
-    },
-    {
       "source": "/k8s/:path*",
       "destination": "/kubernetes/:path*", 
       "permanent": true

@@ -1,63 +1,71 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
-import { Search, Github, Bot } from "lucide-react"
+import { Search, Menu, X, Command } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
 
 interface DocHeaderProps {
-  onToggleAI?: () => void
-  showAIToggle?: boolean
+  onToggleNav?: () => void
+  isMobileNavOpen?: boolean
 }
 
-export function DocHeader({ onToggleAI, showAIToggle = false }: DocHeaderProps) {
+export function DocHeader({ 
+  onToggleNav, 
+  isMobileNavOpen = false 
+}: DocHeaderProps) {
   return (
-    <header className="h-16 border-b border-slate-200 bg-white px-6 flex-shrink-0">
-      <div className="h-full flex items-center justify-between">
-        {/* Left: Branding - Text-based, minimal */}
-        <div className="flex-shrink-0">
-          <Link href="/" className="text-lg font-semibold text-slate-900 hover:text-slate-700">
-            Kubernetes Error Docs
+    <header className="h-16 border-b border-gray-200 bg-white sticky top-0 z-50 shadow-sm">
+      <div className="h-full flex items-center justify-between px-4 lg:px-6">
+        {/* Left: Logo */}
+        <div className="flex items-center">
+          {/* Mobile Menu Button */}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="lg:hidden -ml-2 mr-2 p-2"
+            onClick={onToggleNav}
+          >
+            {isMobileNavOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </Button>
+          
+          <Link href="/dashboard" className="flex items-center">
+            <span className="text-xl font-semibold text-gray-900">ErrorDocs</span>
           </Link>
         </div>
 
-        {/* Center: Search - 400px width */}
-        <div className="flex-1 max-w-md mx-8">
+        {/* Center: Search */}
+        <div className="flex-1 max-w-md mx-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
-            <Input
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <input
               type="search"
-              placeholder="Search Kubernetes errors (e.g. CrashLoopBackOff)"
-              className="pl-10 w-full h-10 rounded-md border-slate-200 focus:border-blue-600 focus:ring-blue-600"
+              placeholder="Search docs..."
+              className="w-full pl-10 pr-4 py-2 text-sm bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         </div>
 
         {/* Right: Navigation */}
-        <div className="flex items-center space-x-1">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/pricing">Pricing</Link>
-          </Button>
-          <Button variant="ghost" size="sm" asChild className="flex items-center gap-1">
-            <Link href="/analysis">
-              Bulk Analysis
-              <Badge variant="secondary" className="text-xs ml-1">Pro</Badge>
+        <div className="flex items-center space-x-4">
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link href="/kubernetes" className="text-sm text-gray-600 hover:text-gray-900">
+              Docs
             </Link>
-          </Button>
-          {showAIToggle && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={onToggleAI}
-              className="flex items-center gap-1"
-            >
-              <Bot className="h-4 w-4" />
-              AI Assistant
-            </Button>
-          )}
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="https://github.com" target="_blank" rel="noopener noreferrer">
-              <Github className="h-4 w-4" />
+            <Link href="/learning-paths" className="text-sm text-gray-600 hover:text-gray-900">
+              Learn
             </Link>
+            <Link href="/pricing" className="text-sm text-gray-600 hover:text-gray-900">
+              Pricing
+            </Link>
+          </nav>
+          
+          <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700">
+            <Link href="/analysis">Sign up</Link>
           </Button>
         </div>
       </div>

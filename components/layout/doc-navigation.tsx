@@ -3,64 +3,88 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, Crown } from "lucide-react"
+import { 
+  ChevronDown, 
+  ChevronRight,
+  Home,
+  FileText,
+  Activity,
+  Network,
+  Shield,
+  Settings,
+  Grid3X3,
+  HardDrive,
+  Server,
+  BookOpen,
+  AlertTriangle,
+  Zap,
+  ArrowRight
+} from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
-
-interface NavSection {
-  title: string
-  href?: string
-  collapsible?: boolean
-  pro?: boolean
-  items?: NavItem[]
-}
 
 interface NavItem {
   title: string
   href: string
   count?: number
-  pro?: boolean
+  badge?: string
+}
+
+interface NavSection {
+  title: string
+  href?: string
+  collapsible?: boolean
+  items?: NavItem[]
 }
 
 const navigation: NavSection[] = [
   {
-    title: "Overview",
-    href: "/dashboard",
+    title: "Getting Started",
+    href: "/dashboard"
+  },
+  {
+    title: "Kubernetes",
+    href: "/kubernetes"
   },
   {
     title: "Error Categories",
     collapsible: true,
     items: [
-      { title: "Authentication & Authorization", href: "/errors?category=auth", count: 8 },
+      { title: "Runtime & Execution", href: "/kubernetes/runtime", count: 16 },
       { title: "Network & Connectivity", href: "/errors?category=network", count: 12 },
-      { title: "Runtime & Execution", href: "/errors?category=runtime", count: 15 },
-      { title: "Scheduling & Resources", href: "/errors?category=scheduler", count: 6 },
-      { title: "Storage & Volumes", href: "/errors?category=storage", count: 9 },
+      { title: "Authentication & Security", href: "/errors?category=auth", count: 8 },
       { title: "Configuration", href: "/errors?category=config", count: 11 },
+      { title: "Storage & Volumes", href: "/errors?category=storage", count: 9 },
+      { title: "Scheduling", href: "/errors?category=scheduler", count: 6 },
       { title: "Cluster Management", href: "/errors?category=cluster", count: 7 },
-    ],
+    ]
   },
   {
-    title: "Browse All Errors",
-    href: "/errors",
-  },
-  {
-    title: "Advanced Features",
+    title: "Learning",
     collapsible: true,
     items: [
-      { title: "Bulk Analysis", href: "/analysis", pro: true },
-    ],
+      { title: "Learning Paths", href: "/learning-paths" },
+      { title: "Troubleshooting Guide", href: "/kubernetes/troubleshooting-checklist" },
+      { title: "Best Practices", href: "/kubernetes/best-practices" }
+    ]
   },
   {
-    title: "Pricing",
-    href: "/pricing",
-  },
+    title: "Tools",
+    collapsible: true,
+    items: [
+      { title: "Error Search", href: "/errors" },
+      { title: "Bulk Analysis", href: "/analysis", badge: "Pro" }
+    ]
+  }
 ]
 
-export function DocNavigation() {
+interface DocNavigationProps {
+  onItemClick?: () => void
+}
+
+export function DocNavigation({ onItemClick }: DocNavigationProps) {
   const pathname = usePathname()
   const [expandedSections, setExpandedSections] = useState<string[]>([
-    "Error Categories",
+    "Error Categories", "Learning", "Tools"
   ])
 
   const toggleSection = (title: string) => {
@@ -72,92 +96,90 @@ export function DocNavigation() {
   }
 
   const isActive = (href: string) => {
-    if (href === "/dashboard" && pathname === "/") return true
+    if (href === "/dashboard" && (pathname === "/" || pathname === "/dashboard")) return true
+    if (href.includes("?category=")) {
+      const category = new URL(`https://example.com${href}`).searchParams.get("category")
+      // Use window.location for browser environment only
+      const currentSearch = typeof window !== "undefined" ? window.location.search : ""
+      const currentCategory = new URL(`https://example.com${pathname}${currentSearch}`).searchParams.get("category")
+      return category === currentCategory
+    }
     return pathname === href || pathname.startsWith(href + "/")
   }
 
-  return (
-    <aside className="w-[280px] bg-white border-r border-slate-200 flex-shrink-0 h-full overflow-y-auto">
-      <nav className="p-6 space-y-1">
-        {navigation.map((section) => (
-          <div key={section.title}>
-            {section.href ? (
-              // Direct link
-              <Link
-                href={section.href}
-                className={cn(
-                  "flex items-center justify-between w-full px-3 py-2 text-sm leading-5 rounded-md transition-colors",
-                  isActive(section.href)
-                    ? "bg-blue-50 text-blue-700 font-medium border-l-2 border-blue-600"
-                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-900"
-                )}
-              >
-                <span className="flex items-center gap-2">
-                  {section.title}
-                  {section.pro && (
-                    <Badge variant="secondary" className="text-xs h-5 px-1.5">
-                      <Crown className="h-3 w-3 mr-1" />
-                      Pro
-                    </Badge>
-                  )}
-                </span>
-              </Link>
-            ) : (
-              // Collapsible section
-              <div>
-                <button
-                  onClick={() => toggleSection(section.title)}
-                  className="flex items-center justify-between w-full px-3 py-2 text-sm leading-5 font-medium text-slate-900 rounded-md hover:bg-slate-50 transition-colors"
-                >
-                  <span>{section.title}</span>
-                  {section.collapsible && (
-                    expandedSections.includes(section.title) ? (
-                      <ChevronDown className="h-4 w-4" />
-                    ) : (
-                      <ChevronRight className="h-4 w-4" />
-                    )
-                  )}
-                </button>
+  const handleItemClick = () => {
+    onItemClick?.()
+  }
 
-                {section.items && expandedSections.includes(section.title) && (
-                  <div className="mt-1 ml-3 space-y-1">
-                    {section.items.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={cn(
-                          "flex items-center justify-between px-3 py-2 text-sm leading-5 rounded-md transition-colors",
-                          isActive(item.href)
-                            ? "bg-blue-50 text-blue-700 font-medium border-l-2 border-blue-600"
-                            : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                        )}
-                      >
-                        <span className="flex items-center gap-2">
-                          {item.title}
-                          {item.pro && (
-                            <Badge variant="secondary" className="text-xs h-5 px-1.5">
-                              <Crown className="h-3 w-3 mr-1" />
-                              Pro
-                            </Badge>
+  return (
+    <nav className="h-full overflow-y-auto bg-white border-r border-gray-200">
+      <div className="p-6">
+        <div className="space-y-1">
+          {navigation.map((section) => (
+            <div key={section.title}>
+              {section.href ? (
+                <Link
+                  href={section.href}
+                  onClick={handleItemClick}
+                  className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                    isActive(section.href)
+                      ? "bg-blue-50 text-blue-700 border-r-2 border-blue-700"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                  )}
+                >
+                  {section.title}
+                </Link>
+              ) : (
+                <div className="py-2">
+                  <button
+                    onClick={() => toggleSection(section.title)}
+                    className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-md"
+                  >
+                    <span>{section.title}</span>
+                    <ChevronRight className={cn(
+                      "h-4 w-4 text-gray-400 transition-transform",
+                      expandedSections.includes(section.title) && "rotate-90"
+                    )} />
+                  </button>
+
+                  {section.items && expandedSections.includes(section.title) && (
+                    <div className="mt-2 space-y-1 ml-4">
+                      {section.items.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={handleItemClick}
+                          className={cn(
+                            "flex items-center justify-between px-3 py-1.5 text-sm rounded-md transition-colors",
+                            isActive(item.href)
+                              ? "bg-blue-50 text-blue-700 font-medium"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                           )}
-                        </span>
-                        {item.count && (
-                          <Badge 
-                            variant="outline" 
-                            className="text-xs bg-slate-100 text-slate-600 border-slate-200"
-                          >
-                            {item.count}
-                          </Badge>
-                        )}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-      </nav>
-    </aside>
+                        >
+                          <span>{item.title}</span>
+                          <div className="flex items-center gap-2">
+                            {item.badge && (
+                              <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                                {item.badge}
+                              </span>
+                            )}
+                            {item.count && (
+                              <span className="text-xs text-gray-400">
+                                {item.count}
+                              </span>
+                            )}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </nav>
   )
 }

@@ -1,11 +1,9 @@
-"use client"
-
-import { EnterpriseLayout } from "../../components/layout/enterprise-layout"
+import { DocLayout } from "../../components/layout/doc-layout"
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return <EnterpriseLayout>{children}</EnterpriseLayout>
+  return <DocLayout>{children}</DocLayout>
 }
