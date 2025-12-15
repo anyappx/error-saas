@@ -39,7 +39,7 @@ export default function RootLayout({
               />
             </div>
             
-            <Link href="/dashboard" className="docs-btn-primary">Get started</Link>
+            <Link href="/dashboard" className="docs-btn-primary">Get Started</Link>
           </nav>
         </header>
         {children}
