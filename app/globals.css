@@ -13,6 +13,7 @@ body {
   background-color: #fff;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   font-optical-sizing: auto;
+  padding-top: 72px;
 }
 
 a {

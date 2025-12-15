@@ -2,27 +2,7 @@ import Link from 'next/link'
 
 export default function HomePage() {
   return (
-    <div className="docs-font">
-      <header className="docs-header">
-        <Link href="/" className="docs-logo">
-          ErrorDocs
-        </Link>
-        <nav className="docs-nav">
-          <Link href="/docs" className="docs-nav-link">Documentation</Link>
-          <Link href="/kubernetes" className="docs-nav-link">Kubernetes</Link>
-          <Link href="/pricing" className="docs-nav-link">Pricing</Link>
-          
-          <div className="docs-search">
-            <input 
-              type="text" 
-              placeholder="Search..." 
-              className="docs-search-input"
-            />
-          </div>
-          
-          <Link href="/dashboard" className="docs-btn-primary">Get started</Link>
-        </nav>
-      </header>
+    <div>
 
       <main>
         <section className="docs-hero">
