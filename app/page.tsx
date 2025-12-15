@@ -27,14 +27,15 @@ export default function HomePage() {
       <main>
         <section className="docs-hero">
           <div className="docs-container">
-            <h1>Kubernetes Error Documentation</h1>
-            <p>
-              Comprehensive documentation and troubleshooting guide for Kubernetes errors, issues, and operational challenges. 
-              Get instant solutions to complex container orchestration problems.
-            </p>
-            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-              <Link href="/dashboard" className="docs-btn-primary">Explore documentation</Link>
-              <Link href="/kubernetes" className="docs-btn-secondary">Browse errors</Link>
+            <div className="docs-hero-content">
+              <h1>Kubernetes Error Documentation</h1>
+              <p>
+                The definitive resource for troubleshooting Kubernetes issues. Transform cryptic error messages into clear solutions with our comprehensive, AI-powered documentation platform.
+              </p>
+              <div className="docs-hero-buttons">
+                <Link href="/dashboard" className="docs-btn-primary">Explore documentation</Link>
+                <Link href="/kubernetes" className="docs-btn-secondary">Browse errors</Link>
+              </div>
             </div>
           </div>
         </section>
