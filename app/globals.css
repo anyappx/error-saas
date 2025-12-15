@@ -53,5 +53,103 @@ button {
   cursor: pointer;
 }
 
-/* Import Stripe Docs styling - ADDITIVE ONLY */
-@import url('./docs-stripe.css');
+/* STRIPE DOCS DESIGN SYSTEM */
+:root {
+  --stripe-docs-primary: #5469D4;
+  --stripe-docs-text: #414552;
+  --stripe-docs-background: #FFFFFF;
+  --stripe-docs-border: #E6EBF1;
+}
+
+/* Header & Navigation */
+.docs-header {
+  background: var(--stripe-docs-background);
+  border-bottom: 1px solid var(--stripe-docs-border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 72px;
+}
+
+.docs-logo {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--stripe-docs-text);
+  text-decoration: none;
+}
+
+.docs-logo:hover {
+  color: var(--stripe-docs-primary);
+}
+
+.docs-nav {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.docs-nav-link {
+  color: var(--stripe-docs-primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.docs-nav-link:hover {
+  background-color: #F6F9FC;
+  color: #4055C3;
+}
+
+.docs-btn-primary {
+  background-color: var(--stripe-docs-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.docs-btn-primary:hover {
+  background-color: #4055C3;
+  color: white;
+  text-decoration: none;
+}
+
+.docs-search {
+  position: relative;
+  max-width: 320px;
+}
+
+.docs-search-input {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--stripe-docs-border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  transition: border-color 0.15s ease;
+}
+
+.docs-search-input:focus {
+  outline: none;
+  border-color: var(--stripe-docs-primary);
+  box-shadow: 0 0 0 3px rgba(84, 105, 212, 0.1);
+}
+
+.docs-font {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
