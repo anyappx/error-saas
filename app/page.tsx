@@ -42,22 +42,31 @@ export default function HomePage() {
         <section className="docs-section">
           <div className="docs-container">
             <h2>Everything you need to troubleshoot Kubernetes</h2>
-            <p>Enterprise-grade error documentation with real-world solutions and trusted sources.</p>
+            <p>Transform cryptic error messages into actionable solutions. Our AI-powered platform helps you resolve issues faster than ever.</p>
             
             <div className="docs-grid">
               <div className="docs-card">
-                <h3>Instant Error Search</h3>
-                <p>Search through thousands of documented Kubernetes errors with deterministic matching and get instant solutions.</p>
+                <div className="docs-card-icon docs-card-icon-search">
+                  🔍
+                </div>
+                <h3>Lightning-Fast Search</h3>
+                <p>Find solutions in seconds, not hours. Our intelligent search understands context and matches your exact error patterns across 10,000+ documented issues.</p>
               </div>
 
               <div className="docs-card">
-                <h3>Comprehensive Guides</h3>
-                <p>Detailed troubleshooting guides with step-by-step fixes, root cause analysis, and prevention strategies.</p>
+                <div className="docs-card-icon docs-card-icon-guide">
+                  📚
+                </div>
+                <h3>Battle-Tested Solutions</h3>
+                <p>Every solution comes from real production environments. Get step-by-step fixes, root cause analysis, and prevention strategies used by top engineering teams.</p>
               </div>
 
               <div className="docs-card">
-                <h3>Trusted Sources</h3>
-                <p>All solutions link to official Kubernetes documentation and verified community resources.</p>
+                <div className="docs-card-icon docs-card-icon-trusted">
+                  ✨
+                </div>
+                <h3>Always Up-to-Date</h3>
+                <p>Stay ahead of the curve with solutions verified against the latest Kubernetes releases. Our documentation evolves with the ecosystem.</p>
               </div>
             </div>
           </div>
