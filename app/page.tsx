@@ -78,38 +78,38 @@ export default function HomePage() {
             <p>From basic runtime issues to complex cluster management problems.</p>
             
             <div className="docs-grid-small">
-              <div className="docs-category-card">
+              <Link href="/errors?category=runtime" className="docs-category-card">
                 <h4>Runtime & Execution</h4>
                 <p>16 errors</p>
-              </div>
-              <div className="docs-category-card">
+              </Link>
+              <Link href="/errors?category=network" className="docs-category-card">
                 <h4>Network & Connectivity</h4>
                 <p>12 errors</p>
-              </div>
-              <div className="docs-category-card">
+              </Link>
+              <Link href="/errors?category=auth" className="docs-category-card">
                 <h4>Authentication & Security</h4>
                 <p>8 errors</p>
-              </div>
-              <div className="docs-category-card">
+              </Link>
+              <Link href="/errors?category=config" className="docs-category-card">
                 <h4>Configuration</h4>
                 <p>11 errors</p>
-              </div>
-              <div className="docs-category-card">
+              </Link>
+              <Link href="/errors?category=storage" className="docs-category-card">
                 <h4>Storage & Volumes</h4>
                 <p>9 errors</p>
-              </div>
-              <div className="docs-category-card">
+              </Link>
+              <Link href="/errors?category=scheduler" className="docs-category-card">
                 <h4>Scheduling</h4>
                 <p>6 errors</p>
-              </div>
-              <div className="docs-category-card">
+              </Link>
+              <Link href="/errors?category=cluster" className="docs-category-card">
                 <h4>Cluster Management</h4>
                 <p>7 errors</p>
-              </div>
-              <div className="docs-category-card">
+              </Link>
+              <Link href="/errors?category=registry" className="docs-category-card">
                 <h4>Registry Issues</h4>
                 <p>5 errors</p>
-              </div>
+              </Link>
             </div>
           </div>
         </section>

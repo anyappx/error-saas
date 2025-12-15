@@ -28,6 +28,10 @@
   text-decoration: none;
 }
 
+.docs-logo:hover {
+  color: var(--stripe-docs-primary);
+}
+
 .docs-nav {
   display: flex;
   gap: 32px;
@@ -35,18 +39,18 @@
 }
 
 .docs-nav-link {
-  color: var(--stripe-docs-text);
+  color: var(--stripe-docs-primary);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
   padding: 8px 12px;
   border-radius: 4px;
-  transition: background-color 0.15s ease;
+  transition: all 0.15s ease;
 }
 
 .docs-nav-link:hover {
   background-color: #F6F9FC;
-  color: var(--stripe-docs-text);
+  color: #4055C3;
 }
 
 /* Buttons - Exact Stripe Docs Styling */
@@ -263,11 +267,18 @@
   text-align: center;
   transition: all 0.15s ease;
   cursor: pointer;
+  text-decoration: none;
+  display: block;
 }
 
 .docs-category-card:hover {
   border-color: var(--stripe-docs-primary);
   box-shadow: 0 2px 8px rgba(84, 105, 212, 0.1);
+  transform: translateY(-1px);
+}
+
+.docs-category-card:hover h4 {
+  color: var(--stripe-docs-primary);
 }
 
 .docs-category-card h4 {
@@ -343,14 +354,14 @@
 }
 
 .docs-footer a {
-  color: #6B7280;
+  color: var(--stripe-docs-primary);
   text-decoration: none;
   font-size: 14px;
   transition: color 0.15s ease;
 }
 
 .docs-footer a:hover {
-  color: var(--stripe-docs-primary);
+  color: #4055C3;
 }
 
 .docs-footer-bottom {
