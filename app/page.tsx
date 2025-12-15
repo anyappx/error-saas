@@ -39,87 +39,123 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="docs-container" style={{ padding: '80px 24px' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: '600', textAlign: 'center', marginBottom: '16px' }}>Everything you need to troubleshoot Kubernetes</h2>
-          <p style={{ fontSize: '18px', textAlign: 'center', marginBottom: '48px' }} className="docs-text-secondary">Enterprise-grade error documentation with real-world solutions and trusted sources.</p>
-          
-          <div>
-            <div>
-              <h3>Instant Error Search</h3>
-              <p>Search through thousands of documented Kubernetes errors with deterministic matching and get instant solutions.</p>
-            </div>
+        <section className="docs-section">
+          <div className="docs-container">
+            <h2>Everything you need to troubleshoot Kubernetes</h2>
+            <p>Enterprise-grade error documentation with real-world solutions and trusted sources.</p>
+            
+            <div className="docs-grid">
+              <div className="docs-card">
+                <h3>Instant Error Search</h3>
+                <p>Search through thousands of documented Kubernetes errors with deterministic matching and get instant solutions.</p>
+              </div>
 
-            <div>
-              <h3>Comprehensive Guides</h3>
-              <p>Detailed troubleshooting guides with step-by-step fixes, root cause analysis, and prevention strategies.</p>
-            </div>
+              <div className="docs-card">
+                <h3>Comprehensive Guides</h3>
+                <p>Detailed troubleshooting guides with step-by-step fixes, root cause analysis, and prevention strategies.</p>
+              </div>
 
-            <div>
-              <h3>Trusted Sources</h3>
-              <p>All solutions link to official Kubernetes documentation and verified community resources.</p>
+              <div className="docs-card">
+                <h3>Trusted Sources</h3>
+                <p>All solutions link to official Kubernetes documentation and verified community resources.</p>
+              </div>
             </div>
           </div>
         </section>
 
-        <section>
-          <h2>Error categories we cover</h2>
-          <p>From basic runtime issues to complex cluster management problems.</p>
-          
-          <div>
-            <div>Runtime & Execution (16 errors)</div>
-            <div>Network & Connectivity (12 errors)</div>
-            <div>Authentication & Security (8 errors)</div>
-            <div>Configuration (11 errors)</div>
-            <div>Storage & Volumes (9 errors)</div>
-            <div>Scheduling (6 errors)</div>
-            <div>Cluster Management (7 errors)</div>
-            <div>Registry Issues (5 errors)</div>
+        <section className="docs-section-alt">
+          <div className="docs-container">
+            <h2>Error categories we cover</h2>
+            <p>From basic runtime issues to complex cluster management problems.</p>
+            
+            <div className="docs-grid-small">
+              <div className="docs-category-card">
+                <h4>Runtime & Execution</h4>
+                <p>16 errors</p>
+              </div>
+              <div className="docs-category-card">
+                <h4>Network & Connectivity</h4>
+                <p>12 errors</p>
+              </div>
+              <div className="docs-category-card">
+                <h4>Authentication & Security</h4>
+                <p>8 errors</p>
+              </div>
+              <div className="docs-category-card">
+                <h4>Configuration</h4>
+                <p>11 errors</p>
+              </div>
+              <div className="docs-category-card">
+                <h4>Storage & Volumes</h4>
+                <p>9 errors</p>
+              </div>
+              <div className="docs-category-card">
+                <h4>Scheduling</h4>
+                <p>6 errors</p>
+              </div>
+              <div className="docs-category-card">
+                <h4>Cluster Management</h4>
+                <p>7 errors</p>
+              </div>
+              <div className="docs-category-card">
+                <h4>Registry Issues</h4>
+                <p>5 errors</p>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section>
-          <h2>Ready to solve your Kubernetes challenges?</h2>
-          <p>Join thousands of developers and DevOps engineers who rely on our documentation.</p>
-          <p><Link href="/dashboard">Start exploring</Link></p>
+        <section className="docs-section">
+          <div className="docs-container">
+            <h2>Ready to solve your Kubernetes challenges?</h2>
+            <p>Join thousands of developers and DevOps engineers who rely on our documentation.</p>
+            <div style={{ textAlign: 'center' }}>
+              <Link href="/dashboard" className="docs-btn-primary">Start exploring</Link>
+            </div>
+          </div>
         </section>
       </main>
 
-      <footer>
-        <div>
-          <div>
-            <h3>Product</h3>
-            <ul>
-              <li><Link href="/dashboard">Dashboard</Link></li>
-              <li><Link href="/kubernetes">Documentation</Link></li>
-              <li><Link href="/pricing">Pricing</Link></li>
-            </ul>
+      <footer className="docs-footer">
+        <div className="docs-container">
+          <div className="docs-footer-grid">
+            <div>
+              <h3>Product</h3>
+              <ul>
+                <li><Link href="/dashboard">Dashboard</Link></li>
+                <li><Link href="/kubernetes">Documentation</Link></li>
+                <li><Link href="/pricing">Pricing</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Resources</h3>
+              <ul>
+                <li><Link href="/learning-paths">Learning Paths</Link></li>
+                <li><Link href="/kubernetes/troubleshooting-checklist">Troubleshooting</Link></li>
+                <li><Link href="/errors">Error Search</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Categories</h3>
+              <ul>
+                <li><Link href="/errors?category=runtime">Runtime</Link></li>
+                <li><Link href="/errors?category=network">Network</Link></li>
+                <li><Link href="/errors?category=auth">Security</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Company</h3>
+              <ul>
+                <li><Link href="/about">About</Link></li>
+                <li><Link href="/contact">Contact</Link></li>
+                <li><Link href="/privacy">Privacy</Link></li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <h3>Resources</h3>
-            <ul>
-              <li><Link href="/learning-paths">Learning Paths</Link></li>
-              <li><Link href="/kubernetes/troubleshooting-checklist">Troubleshooting</Link></li>
-              <li><Link href="/errors">Error Search</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3>Categories</h3>
-            <ul>
-              <li><Link href="/errors?category=runtime">Runtime</Link></li>
-              <li><Link href="/errors?category=network">Network</Link></li>
-              <li><Link href="/errors?category=auth">Security</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3>Company</h3>
-            <ul>
-              <li><Link href="/about">About</Link></li>
-              <li><Link href="/contact">Contact</Link></li>
-              <li><Link href="/privacy">Privacy</Link></li>
-            </ul>
+          <div className="docs-footer-bottom">
+            <p>© 2024 ErrorDocs. Enterprise Kubernetes troubleshooting documentation.</p>
           </div>
         </div>
-        <p>© 2024 ErrorDocs. Enterprise Kubernetes troubleshooting documentation.</p>
       </footer>
     </div>
   )
