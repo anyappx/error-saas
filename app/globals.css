@@ -49,3 +49,6 @@ ul, ol {
 button {
   cursor: pointer;
 }
+
+/* Import Stripe Docs styling - ADDITIVE ONLY */
+@import url('./docs-stripe.css');

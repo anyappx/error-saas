@@ -2,37 +2,46 @@ import Link from 'next/link'
 
 export default function HomePage() {
   return (
-    <div>
-      <header>
-        <nav>
-          <h1>
-            <Link href="/">ErrorDocs</Link>
-          </h1>
-          <ul>
-            <li><Link href="/docs">Documentation</Link></li>
-            <li><Link href="/kubernetes">Kubernetes</Link></li>
-            <li><Link href="/pricing">Pricing</Link></li>
-            <li><Link href="/dashboard">Dashboard</Link></li>
-          </ul>
+    <div className="docs-font">
+      <header className="docs-header">
+        <Link href="/" className="docs-logo">
+          ErrorDocs
+        </Link>
+        <nav className="docs-nav">
+          <Link href="/docs" className="docs-nav-link">Documentation</Link>
+          <Link href="/kubernetes" className="docs-nav-link">Kubernetes</Link>
+          <Link href="/pricing" className="docs-nav-link">Pricing</Link>
+          
+          <div className="docs-search">
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              className="docs-search-input"
+            />
+          </div>
+          
+          <Link href="/dashboard" className="docs-btn-primary">Get started</Link>
         </nav>
       </header>
 
       <main>
-        <section>
-          <h1>Kubernetes Error Documentation</h1>
-          <p>
-            Comprehensive documentation and troubleshooting guide for Kubernetes errors, issues, and operational challenges. 
-            Get instant solutions to complex container orchestration problems.
-          </p>
-          <p>
-            <Link href="/dashboard">Explore documentation</Link> | 
-            <Link href="/kubernetes">Browse errors</Link>
-          </p>
+        <section className="docs-hero">
+          <div className="docs-container">
+            <h1>Kubernetes Error Documentation</h1>
+            <p>
+              Comprehensive documentation and troubleshooting guide for Kubernetes errors, issues, and operational challenges. 
+              Get instant solutions to complex container orchestration problems.
+            </p>
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+              <Link href="/dashboard" className="docs-btn-primary">Explore documentation</Link>
+              <Link href="/kubernetes" className="docs-btn-secondary">Browse errors</Link>
+            </div>
+          </div>
         </section>
 
-        <section>
-          <h2>Everything you need to troubleshoot Kubernetes</h2>
-          <p>Enterprise-grade error documentation with real-world solutions and trusted sources.</p>
+        <section className="docs-container" style={{ padding: '80px 24px' }}>
+          <h2 style={{ fontSize: '32px', fontWeight: '600', textAlign: 'center', marginBottom: '16px' }}>Everything you need to troubleshoot Kubernetes</h2>
+          <p style={{ fontSize: '18px', textAlign: 'center', marginBottom: '48px' }} className="docs-text-secondary">Enterprise-grade error documentation with real-world solutions and trusted sources.</p>
           
           <div>
             <div>
