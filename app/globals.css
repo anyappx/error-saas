@@ -1,7 +1,7 @@
-@import url('./stripe-theme.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('./stripe-theme.css');
 
 :root {
   --background: 0 0% 100%;
